@@ -142,10 +142,8 @@ class DefaultController extends AdminController
             $status = true;
             $node->moveAsLast($target);
         }
-        //if($status)
-        $message.=$node->rebuildFullPath()->full_path;
-
-                //->saveNode(false);
+        if($status)
+            $test->rebuildFullPath()->saveNode(false);
 
 
         return [
@@ -204,16 +202,16 @@ class DefaultController extends AdminController
     //TODO need multi language add and test
     public function actionCreateRoot()
     {
+        /** @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $model */
         $model = new Docs();
         $model::getDb()->createCommand()->truncateTable(Docs::tableName())->execute();
         $model::getDb()->createCommand()->truncateTable(DocsTranslate::tableName())->execute();
         $model->name = 'Документация';
         $model->lft = 1;
         $model->rgt = 2;
-        $model->depth = 1;
+        $model->depth = 0;
         $model->seo_alias = 'root';
         $model->full_path = '';
-        $model->switch = 1;
         $model->saveNode();
         return $this->redirect(['create']);
     }

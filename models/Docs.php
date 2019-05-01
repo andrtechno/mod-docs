@@ -58,7 +58,9 @@ class Docs extends ActiveRecord
             }
         }
     }
+
     public $translationClass = DocsTranslate::class;
+
     public function getTranslations()
     {
         return $this->hasMany($this->translationClass, ['object_id' => 'id']);
@@ -105,13 +107,17 @@ class Docs extends ActiveRecord
     {
         return [
             ['name', 'required'],
+            ['seo_alias', '\panix\engine\validators\UrlValidator', 'attributeCompare' => 'name'],
+            ['seo_alias', 'match',
+                'pattern' => '/^([a-z0-9-])+$/i',
+                'message' => Yii::t('app', 'PATTERN_URL')
+            ],
             [['name', 'seo_alias'], 'trim'],
             [['name', 'seo_alias'], 'required'],
             [['name'], 'string', 'max' => 255],
             ['description', 'safe']
         ];
     }
-
 
 
     /**
@@ -135,10 +141,17 @@ class Docs extends ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public function afterDelete2()
+    /*no this function!*/
+    public function afterDelete()
     {
         $this->clearRouteCache();
         return parent::afterDelete();
+    }
+
+    public function beforeDelete()
+    {
+        $this->clearRouteCache();
+        return parent::beforeDelete();
     }
 
 
@@ -155,7 +168,7 @@ class Docs extends ActiveRecord
     {
         // Create category full path.
         $ancestors = $this->ancestors()
-            ->addOrderBy('depth')
+            //->addOrderBy($this->levelAttribute)
             ->all();
         if (sizeof($ancestors)) {
             // Remove root category from path
@@ -165,7 +178,7 @@ class Docs extends ActiveRecord
             foreach ($ancestors as $ancestor)
                 $parts[] = $ancestor->seo_alias;
 
-           // $parts[] = $this->seo_alias;
+            // $parts[] = $this->seo_alias;
             $this->full_path = implode('/', array_filter($parts));
         }
 
