@@ -8,18 +8,20 @@ use yii\web\UrlRule;
 class CategoryUrlRule extends UrlRule
 {
 
-   // public $pattern = 'docs/default/view';
+    public $pattern = '/docs/<seo_alias:[0-9a-zA-Z\-]+>';
     public $route = 'docs/default/view';
 
-    public function createUrl2($manager, $route, $params)
+    /**
+     * @inheritdoc
+     */
+    public function createUrl($manager, $route, $params)
     {
-        if ($route === 'docs/default/view') {
-
+        if ($route === $this->route) {
             if (isset($params['seo_alias'])) {
-                $url = trim($params['seo_alias'], '/');
+                $url = 'docs/' . trim($params['seo_alias'], '/');
                 unset($params['seo_alias']);
             } else {
-                $url = '';
+                $url = 'docs/';
             }
             $parts = [];
             if (!empty($params)) {
@@ -28,15 +30,14 @@ class CategoryUrlRule extends UrlRule
                 }
                 $url .= '/' . implode('/', $parts);
             }
-
             return $url . $this->suffix;
         }
-
         return false;
     }
 
-
-
+    /**
+     * @inheritdoc
+     */
     public function parseRequest($manager, $request)
     {
         $params = [];
@@ -66,7 +67,7 @@ class CategoryUrlRule extends UrlRule
                 }
 
                 $params['seo_alias'] = ltrim($path['full_path']);
-                return ['docs/default/view', $params];
+                return [$this->route, $params];
             }
         }
         return false;
@@ -88,7 +89,7 @@ class CategoryUrlRule extends UrlRule
                 return strlen($b['full_path']) - strlen($a['full_path']);
             });
 
-            \Yii::$app->cache->set(__CLASS__, $allPaths,1);
+            \Yii::$app->cache->set(__CLASS__, $allPaths, 1);
         }
 
         return $allPaths;
