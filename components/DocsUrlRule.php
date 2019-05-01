@@ -4,8 +4,9 @@ namespace panix\mod\docs\components;
 
 use panix\mod\docs\models\Docs;
 use yii\web\UrlRule;
+use yii\web\UrlRuleInterface;
 
-class DocsUrlRule extends UrlRule
+class DocsUrlRule extends UrlRule implements UrlRuleInterface
 {
 
     public $pattern = '/docs/<seo_alias:[0-9a-zA-Z\-]+>';
