@@ -1,5 +1,5 @@
 <?php
-use app\modules\documentation\widgets\categories\CategoriesWidget;
+use panix\mod\docs\widgets\categories\CategoriesWidget;
 use yii\widgets\ListView;
 
 ?>

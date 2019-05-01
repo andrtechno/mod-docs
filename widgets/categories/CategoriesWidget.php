@@ -1,9 +1,8 @@
 <?php
+namespace panix\mod\docs\widgets\categories;
 
-namespace app\modules\documentation\widgets\categories;
-
-use app\modules\documentation\models\Documentation;
-use app\modules\documentation\models\CategoryNode;
+use panix\mod\docs\models\Documentation;
+use panix\mod\docs\models\CategoryNode;
 use panix\engine\data\Widget;
 use yii\helpers\Html;
 use Yii;

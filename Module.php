@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\documentation;
+namespace panix\mod\docs;
 
 use Yii;
 use panix\engine\Html;
@@ -13,7 +13,7 @@ class Module extends WebModule
 
     public $routes = [
         /*'documentation/tag/<tag:.*?>' => 'documentation/default/index',*/
-        ['class' => 'app\modules\documentation\components\DocumentationUrlRule'],
+        ['class' => 'panix\mod\docs\components\DocumentationUrlRule'],
         //'documentation' => 'documentation/default/index',
     ];
 

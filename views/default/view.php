@@ -1,5 +1,5 @@
 <?php
-use app\modules\documentation\models\Documentation;
+use panix\mod\docs\models\Documentation;
 use panix\engine\CMS;
 use panix\engine\Html;
 

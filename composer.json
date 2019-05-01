@@ -1,0 +1,21 @@
+{
+    "name": "panix/mod-docs",
+    "description": "Module docs",
+    "keywords": ["pixelion-cms", "module", "docs"],
+    "homepage": "https://github.com/andrtechno/mod-docs",
+    "type": "yii2-extension",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "PIXELION CMS",
+            "email": "dev@pixelion.com.ua",
+            "homepage": "https://pixelion.com.ua"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "panix\\mod\\docs\\": ""
+        }
+    }
+}

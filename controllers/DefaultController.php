@@ -1,9 +1,8 @@
 <?php
+namespace panix\mod\docs\controllers;
 
-namespace app\modules\documentation\controllers;
-
-use app\modules\documentation\models\Documentation;
-use app\modules\documentation\models\DocumentationSearch;
+use panix\mod\docs\models\Documentation;
+use panix\mod\docs\models\DocumentationSearch;
 use panix\engine\controllers\WebController;
 use Yii;
 

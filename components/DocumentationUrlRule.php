@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\documentation\components;
+namespace panix\mod\docs\components;
 
-use app\modules\documentation\models\Documentation;
+use panix\mod\docs\models\Documentation;
 use yii\web\UrlRuleInterface;
 use yii\base\Object;
 use yii\web\UrlRule;

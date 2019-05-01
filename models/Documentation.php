@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\documentation\models;
+namespace panix\mod\docs\models;
 
-use app\modules\documentation\components\MenuArrayBehavior;
+use panix\mod\docs\documentation\components\MenuArrayBehavior;
 use panix\engine\behaviors\nestedsets\NestedSetsBehavior;
 use panix\engine\behaviors\TranslateBehavior;
 use panix\engine\db\ActiveRecord;

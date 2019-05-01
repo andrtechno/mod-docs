@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\documentation\controllers\admin;
+namespace panix\mod\docs\controllers\admin;
 
 use panix\engine\controllers\AdminController;
 

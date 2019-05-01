@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\documentation\models;
+namespace panix\mod\docs\models;
 
 
 use yii\base\Model;

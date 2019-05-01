@@ -1,5 +1,5 @@
 <?php
-
+namespace panix\mod\docs\components;
 /**
  * Present Documentation as JsTree node.
  */

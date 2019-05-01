@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\documentation\models;
+namespace panix\mod\docs\models;
 
 use panix\engine\traits\DefaultQueryTrait;
 use yii\db\ActiveQuery;

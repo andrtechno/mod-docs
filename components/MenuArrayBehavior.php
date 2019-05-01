@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\documentation\components;
+namespace panix\mod\docs\components;
 
 use Yii;
 
