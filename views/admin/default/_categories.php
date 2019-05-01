@@ -1,27 +1,22 @@
 <?php
-/*Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl . '/admin/tree.js', CClientScript::POS_END);
-Yii::app()->tpl->openWidget(array(
-    'title' => 'Каталог',
-    'htmlOptions' => array('class' => 'form-horizontal')
-));
-*/
-\panix\mod\shop\bundles\admin\CategoryAsset::register($this);
+
+\panix\mod\docs\CategoryAsset::register($this);
 
 ?>
 <div class="form-group">
-    <div class="col-xs-12">
-        <input class="form-control" placeholder="Поиск..." type="text" onkeyup='$("#DocsTree").jstree(true).search($(this).val())' />
+    <div class="col-12">
+        <input class="form-control" placeholder="Поиск..." type="text" onkeyup='$("#jsTree_DocsTree").jstree(true).search($(this).val())' />
     </div>
 </div>
-<div class="clearfix"></div>
+
 <?php
-//Yii::app()->tpl->alert('info', Yii::t('admin', "Используйте 'drag-and-drop' для сортировки категорий."), false);
+ echo Yii::t('app', "Используйте 'drag-and-drop' для сортировки категорий.");
 ?>
 
 <?php
 
 echo \panix\ext\jstree\JsTree::widget([
-    'id' => 'CategoryTree',
+    'id' => 'DocsTree',
     'name' => 'jstree',
     'allOpen' => true,
     'data' => \panix\mod\docs\components\CategoryNode::fromArray(\panix\mod\docs\models\Docs::findOne(1)->children()->all(), ['switch' => true]),
@@ -37,7 +32,7 @@ echo \panix\ext\jstree\JsTree::widget([
     'plugins' => ['dnd', 'contextmenu', 'search', 'wholerow', 'state'],
     'contextmenu' => [
         'items' => new yii\web\JsExpression('function($node) {
-                var tree = $("#jsTree_CategoryTree").jstree(true);
+                var tree = $("#jsTree_DocsTree").jstree(true);
                 return {
                     "Switch": {
                         "icon":"icon-eye",

@@ -52,7 +52,7 @@ class DefaultController extends WebController
         $this->findModel($seo_alias);
 
         $this->pageName = Yii::t('docs/default', 'MODULE_NAME');
-
+        $this->view->title = $this->model->name;
         //$ancestors = $this->model->excludeRoot()->ancestors()->findAll();
         //$this->breadcrumbs = array(Yii::t('documentation/default', 'MODULE_NAME') => array('/documentation'));
         //foreach ($ancestors as $c)

@@ -70,7 +70,7 @@ class CategoriesWidget extends Widget {
             }
             $html .= Html::endTag('ul');
         } else {
-            $parent[$obj['id']] = $obj['id'];
+
             $html .= Html::a($data['label'], '');
         }
         return $html;

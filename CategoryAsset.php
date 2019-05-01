@@ -1,21 +1,21 @@
 <?php
-/**
- *
- * @author Pixelion CMS <dev@pixelion.com.ua>
- * @link http://www.pixelion.com.ua/
- */
+
 namespace panix\mod\docs;
-
-
 
 use panix\engine\web\AssetBundle;
 
+/**
+ * Class CategoryAsset
+ * @package panix\mod\docs
+ */
 class CategoryAsset extends AssetBundle
 {
-    public $sourcePath = __DIR__.'/../../assets/admin';
+    public $sourcePath = __DIR__ . '/assets';
+
     public $js = [
-        'js/category.js',
+        'tree.js',
     ];
+
     public $depends = [
         'yii\web\JqueryAsset',
     ];

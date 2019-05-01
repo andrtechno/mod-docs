@@ -45,7 +45,7 @@ if (isset($subManual)) {
 
 <?php if ($this->context->model->description) { ?>
 <div class="manual-view">
-    <h1><?= $this->context->model->name; ?></h1>
+    <h1><?= ($this->h1) ? $this->h1 : $this->context->model->name; ?></h1>
     <div class="mce-content-body">
         <?= $this->context->model->description; ?>
     </div>

@@ -61,14 +61,19 @@ class DocsUrlRule extends UrlRule
                 $_GET['seo_alias'] = $path['full_path'];
                 $uri = str_replace($path['full_path'], '', $pathInfo);
                 $parts = explode('/', $uri);
+
                 unset($parts[0]);
+
                 //$pathInfo = implode($parts, '/');
                 //   print_r(array_chunk($parts, 2));
                 $ss = array_chunk($parts, 2);
+
+
+
                 foreach ($ss as $k => $p) {
                     // print_r($p);
-                    $_GET[$p[0]] = $p[1];
-                    $params[$p[0]] = $p[1];
+                    $_GET[$p[0]] = $p[0];
+                    $params[$p[0]] = $p[0];
                 }
 
                 $params['seo_alias'] = ltrim($path['full_path']);

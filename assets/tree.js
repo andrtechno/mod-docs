@@ -31,8 +31,6 @@ treeSelector.bind('rename_node.jstree', function (node, text) {
 });
 //Need dev.
 treeSelector.bind('create_node.jstree', function (node, parent, position) {
-
-
     $.ajax({
         async: false,
         type: 'GET',
