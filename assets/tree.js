@@ -1,9 +1,9 @@
-var treeSelector = $('#DocsTree');
-treeSelector.bind('move_node.jstree', function (node, parent) {
+var treeSelector = $('#jsTree_DocsTree');
+treeSelector.on('move_node.jstree', function (node, parent) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: '/admin/docs/default/moveNode',
+        url: '/admin/docs/default/move-node',
         data: {
             'id': parent.node.id.replace('node_', ''),
             'ref': parent.parent.replace('node_', ''),
@@ -12,12 +12,12 @@ treeSelector.bind('move_node.jstree', function (node, parent) {
     });
 });
 
-treeSelector.bind('rename_node.jstree', function (node, text) {
+treeSelector.on('rename_node.jstree', function (node, text) {
     if (text.old !== text.text) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: "/admin/docs/default/renameNode",
+            url: "/admin/docs/default/rename-node",
             dataType: 'json',
             data: {
                 "id": text.node.id.replace('node_', ''),
@@ -30,11 +30,11 @@ treeSelector.bind('rename_node.jstree', function (node, text) {
     }
 });
 //Need dev.
-treeSelector.bind('create_node.jstree', function (node, parent, position) {
+treeSelector.on('create_node.jstree', function (node, parent, position) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/docs/default/createNode",
+        url: "/admin/docs/default/create-node",
         dataType: 'json',
         data: {
             text: parent.node.text,
@@ -46,7 +46,7 @@ treeSelector.bind('create_node.jstree', function (node, parent, position) {
     });
 });
 
-treeSelector.bind("delete_node.jstree", function (node, parent) {
+treeSelector.on("delete_node.jstree", function (node, parent) {
     $.ajax({
         async: false,
         type: 'GET',
@@ -61,7 +61,7 @@ function switchNode(node) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/docs/default/switchNode",
+        url: "/admin/docs/default/switch-node",
         dataType: 'json',
         data: {
             id: node.id.replace('node_', ''),

@@ -5,12 +5,13 @@
 ?>
 <div class="form-group">
     <div class="col-12">
-        <input class="form-control" placeholder="Поиск..." type="text" onkeyup='$("#jsTree_DocsTree").jstree(true).search($(this).val())' />
+        <input class="form-control" placeholder="Поиск..." type="text"
+               onkeyup='$("#jsTree_DocsTree").jstree(true).search($(this).val())'/>
     </div>
 </div>
 
 <?php
- echo Yii::t('app', "Используйте 'drag-and-drop' для сортировки категорий.");
+echo Yii::t('app', "Используйте 'drag-and-drop' для сортировки категорий.");
 ?>
 
 <?php
@@ -21,28 +22,33 @@ echo \panix\ext\jstree\JsTree::widget([
     'allOpen' => true,
     'data' => \panix\mod\docs\components\CategoryNode::fromArray(\panix\mod\docs\models\Docs::findOne(1)->children()->all(), ['switch' => true]),
     'core' => [
+        "multiple" => false,
         'force_text' => true,
         'animation' => 0,
         'strings' => [
             'Loading ...' => Yii::t('app', 'LOADING')
         ],
-        "themes" => ["stripes" => true, 'responsive' => true, "variant" => "large"],
+        "themes" => [
+            "stripes" => true,
+            'responsive' => true,
+            "variant" => "large"
+        ],
         'check_callback' => true
     ],
-    'plugins' => ['dnd', 'contextmenu', 'search', 'wholerow', 'state'],
+    'plugins' => ['dnd', 'contextmenu', 'search'],
     'contextmenu' => [
         'items' => new yii\web\JsExpression('function($node) {
-                var tree = $("#jsTree_DocsTree").jstree(true);
-                return {
-                    "Switch": {
-                        "icon":"icon-eye",
-                        "label": "' . Yii::t('app', 'Скрыть показать') . '",
-                        "action": function (obj) {
-                            $node = tree.get_node($node);
-                            categorySwitch($node);
-                        }
-                    }, 
-                    "Add": {
+            var tree = $("#jsTree_DocsTree").jstree(true);
+            return {
+                "Switch": {
+                    "icon":"icon-eye",
+                    "label": "' . Yii::t('app', 'Скрыть показать') . '",
+                    "action": function (obj) {
+                        $node = tree.get_node($node);
+                        categorySwitch($node);
+                    }
+                }, 
+                "Add": {
                         "icon":"icon-add",
                         "label": "' . Yii::t('app', 'CREATE') . '",
                         "action": function (obj) {
@@ -71,7 +77,7 @@ echo \panix\ext\jstree\JsTree::widget([
                         "icon":"icon-trashcan",
                         "label": "' . Yii::t('app', 'DELETE') . '",
                         "action": function (obj) {
-                            if (confirm("' . Yii::t('app', 'DELETE_CONFIRM') . '\nТак же будут удалены все товары.")) {
+                            if (confirm("' . Yii::t('app', 'DELETE_CONFIRM') . '")) {
                                 tree.delete_node($node);
                             }
                         }
