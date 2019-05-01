@@ -4,22 +4,7 @@ use panix\engine\CMS;
 use panix\engine\Html;
 
 ?>
-<script>
-    $(function () {
-        $('a[href*="#"]:not([href="#"])').click(function () {
-            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                if (target.length) {
-                    $('html, body').animate({
-                        scrollTop: target.offset().top - $('.navbar-fixed-top').height()
-                    }, 1000);
-                    return false;
-                }
-            }
-        });
-    });
-</script>
+
 <?php
 //$this->widget('ext.fancybox.Fancybox', array(
 //   'target' => 'a.fancybox',
@@ -35,7 +20,7 @@ if (isset($subManual)) {
         ?>
         <div style="margin-bottom:20px;list-style: circle">
             <?= Html::a($row->name, $row->getUrl(), ['title' => $row->name, 'class' => 'h4']) ?>
-            <div class="text-muted"></div>
+
         </div>
         <?php
     }
@@ -46,14 +31,14 @@ if (isset($subManual)) {
 <?php if ($this->context->model->description) { ?>
 <div class="manual-view">
     <h1><?= ($this->h1) ? $this->h1 : $this->context->model->name; ?></h1>
-    <div class="mce-content-body">
+    <div class="tester content test">
         <?= $this->context->model->description; ?>
     </div>
 
-    <div class="panel-footer">
+    <div class="card-footer">
         <div class="date">
-            <i class="flaticon-calendar-2"></i>
-            <?php //echo CMS::date($this->context->model->created_at) ?>
+            <i class="icon-calendar"></i>
+            <?php echo CMS::date($this->context->model->created_at) ?>
         </div>
 
     </div>
