@@ -3,6 +3,7 @@
 namespace panix\mod\docs\controllers\admin;
 
 use panix\engine\CMS;
+use panix\mod\docs\models\DocsTranslate;
 use Yii;
 use panix\engine\controllers\AdminController;
 use panix\mod\docs\models\Docs;
@@ -114,23 +115,46 @@ class DefaultController extends AdminController
      */
     public function actionMoveNode()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         /**
          * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $node
          * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $target
          */
         $node = Docs::findModel(Yii::$app->request->get('id'));
-        $target = Docs::findOne($_GET['ref']);
-
+        $target = Docs::findModel(Yii::$app->request->get('ref'));
+        $test = $node;
+        $status = false;
+        $message = '';
         if ((int)$_GET['position'] > 0) {
             $pos = (int)$_GET['position'];
             $childs = $target->children()->all();
-          // print_r($childs);die;
-            if (isset($childs[$pos - 1]) && $childs[$pos - 1]['id'] != $node->id)
-                $node->moveAfter($childs[$pos - 1]);
-        } else
-            $node->moveAsFirst($target);
 
-        $node->rebuildFullPath()->saveNode(false);
+            if (isset($childs[$pos - 1]) && $childs[$pos - 1]->id != $node->id) { // && $childs[$pos - 1]->id != $node->id
+                $node->moveAfter($childs[$pos - 1]);
+                $status = true;
+                $message = 'moveAfter';
+            } else {
+                $message = 'err';
+               // echo count($childs);
+            }
+        } else {
+            $message = 'moveAsFirst';
+            $status = true;
+            $node->moveAsLast($target);
+        }
+        //if($status)
+        $message.=$node->rebuildFullPath()->full_path;
+
+                //->saveNode(false);
+
+
+        return [
+            'status' => $status,
+            'message' => $message
+        ];
+
+
+
     }
 
     /**
@@ -181,6 +205,8 @@ class DefaultController extends AdminController
     public function actionCreateRoot()
     {
         $model = new Docs();
+        $model::getDb()->createCommand()->truncateTable(Docs::tableName())->execute();
+        $model::getDb()->createCommand()->truncateTable(DocsTranslate::tableName())->execute();
         $model->name = 'Документация';
         $model->lft = 1;
         $model->rgt = 2;

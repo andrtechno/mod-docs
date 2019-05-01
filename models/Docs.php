@@ -154,16 +154,18 @@ class Docs extends ActiveRecord
     public function rebuildFullPath()
     {
         // Create category full path.
-        $ancestors = $this->ancestors()->addOrderBy('depth')->all();
+        $ancestors = $this->ancestors()
+            ->addOrderBy('depth')
+            ->all();
         if (sizeof($ancestors)) {
             // Remove root category from path
             unset($ancestors[0]);
 
-            $parts = array();
+            $parts = [];
             foreach ($ancestors as $ancestor)
                 $parts[] = $ancestor->seo_alias;
 
-            $parts[] = $this->seo_alias;
+           // $parts[] = $this->seo_alias;
             $this->full_path = implode('/', array_filter($parts));
         }
 

@@ -31,9 +31,9 @@ to the require section of your `composer.json` file.
 
 #### Add to web config.
 ```
-    'modules' => [
-        'docs' => ['class' => 'panix\mod\docs\Module'],
-    ],
+'modules' => [
+    'docs' => ['class' => 'panix\mod\docs\Module'],
+],
 ```
 #### Migrate
 ```

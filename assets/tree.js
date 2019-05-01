@@ -1,5 +1,7 @@
 var treeSelector = $('#jsTree_DocsTree');
 treeSelector.on('move_node.jstree', function (node, parent) {
+    console.log(node);
+    console.log(parent);
     $.ajax({
         async: false,
         type: 'GET',
@@ -8,6 +10,13 @@ treeSelector.on('move_node.jstree', function (node, parent) {
             'id': parent.node.id.replace('node_', ''),
             'ref': parent.parent.replace('node_', ''),
             'position': parent.position
+        },
+        success: function (data) {
+            if (data.status) {
+                common.notify(data.message, 'success');
+            } else {
+                common.notify(data.message, 'error');
+            }
         }
     });
 });
@@ -24,7 +33,7 @@ treeSelector.on('rename_node.jstree', function (node, text) {
                 text: text.text
             },
             success: function (data) {
-                common.notify(data.message,'success');
+                common.notify(data.message, 'success');
             }
         });
     }
@@ -41,7 +50,7 @@ treeSelector.on('create_node.jstree', function (node, parent, position) {
             parent_id: parent.parent.replace('node_', '')
         },
         success: function (data) {
-            common.notify(data.message,'success');
+            common.notify(data.message, 'success');
         }
     });
 });
@@ -68,7 +77,7 @@ function switchNode(node) {
         },
         success: function (data) {
             var icon = (data.switch) ? 'flaticon-eye' : 'flaticon-eye-close';
-            common.notify(data.message,'success');
+            common.notify(data.message, 'success');
             treeSelector.jstree(true).set_icon(node, icon);
         }
     });

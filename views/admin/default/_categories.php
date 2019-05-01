@@ -1,7 +1,13 @@
 <?php
 
+use panix\mod\docs\models\Docs;
+use panix\mod\docs\components\CategoryNode;
+
 \panix\mod\docs\CategoryAsset::register($this);
 
+
+$gg = CategoryNode::fromArray(Docs::findOne(1)->children()->all(), ['switch' => true]);
+//echo \yii\helpers\VarDumper::dump($gg,10,true);die;
 ?>
 
 <div class="card">
@@ -26,7 +32,7 @@
             'id' => 'DocsTree',
             'name' => 'jstree',
             'allOpen' => true,
-            'data' => \panix\mod\docs\components\CategoryNode::fromArray(\panix\mod\docs\models\Docs::findOne(1)->children()->all(), ['switch' => true]),
+            'data' => CategoryNode::fromArray(Docs::find()->where(['id' => 1])->all(), ['switch' => true]),
             'core' => [
                 "multiple" => false,
                 'force_text' => true,
@@ -43,7 +49,7 @@
             ],
             'plugins' => ['dnd', 'contextmenu', 'search'],
             'contextmenu' => [
-                'items' => new yii\web\JsExpression('function($node) {
+            'items' => new yii\web\JsExpression('function($node) {
             var tree = $("#jsTree_DocsTree").jstree(true);
             return {
                 "Switch": {

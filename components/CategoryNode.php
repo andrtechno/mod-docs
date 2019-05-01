@@ -7,7 +7,7 @@ use yii\base\BaseObject;
 /**
  * Present Category as JsTree node.
  */
-class CategoryNode extends BaseObject
+class CategoryNode extends BaseObject implements \ArrayAccess
 {
 
     /**
@@ -39,13 +39,13 @@ class CategoryNode extends BaseObject
      * @var array category children
      */
     protected $_children;
-    protected $options = array();
+    protected $options = [];
 
 
     public function __construct($model, $options = [])
     {
-        $this->options = &$options;
-        $this->model = &$model;
+        $this->options = & $options;
+        $this->model = & $model;
         parent::__construct([]);
         return $this;
     }
@@ -59,10 +59,11 @@ class CategoryNode extends BaseObject
      */
     public static function fromArray($model, $options = [])
     {
-        $result = array();
+        $result = [];
         foreach ($model as $row) {
             //if(isset($options['switch'])){
             // if($row->switch) //$options['switch'] ||
+
             $result[] = new CategoryNode($row, $options);
             // }
         }
@@ -108,5 +109,19 @@ class CategoryNode extends BaseObject
     {
         return $this->model->switch;
     }
+    public function offsetGet($offset) {
+        return $this->{$offset};
+    }
 
+    public function offsetExists($offset) {
+
+    }
+
+    public function offsetSet($offset, $value) {
+
+    }
+
+    public function offsetUnset($offset) {
+
+    }
 }
