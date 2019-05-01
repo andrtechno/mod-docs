@@ -24,6 +24,9 @@ class DefaultController extends AdminController
 
     public function actionUpdate($id = false)
     {
+        /**
+         * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $model
+         */
         $model = Docs::findModel($id);
 
         $post = Yii::$app->request->post();
@@ -62,7 +65,9 @@ class DefaultController extends AdminController
         } else {
             $id = str_replace('j1_', '', Yii::$app->request->get('id'));
         }
-
+        /**
+         * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $model
+         */
         $model = Docs::findOne((int)$id);
         if ($model) {
             $model->name = Yii::$app->request->get('text');
@@ -84,6 +89,9 @@ class DefaultController extends AdminController
 
     public function actionCreateNode()
     {
+        /**
+         * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $model
+         */
         $model = new Docs;
         $parent = Docs::findOne($_GET['parent_id']);
 
@@ -106,6 +114,10 @@ class DefaultController extends AdminController
      */
     public function actionMoveNode()
     {
+        /**
+         * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $node
+         * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $target
+         */
         $node = Docs::findModel(Yii::$app->request->get('id'));
         $target = Docs::findOne($_GET['ref']);
 
@@ -133,6 +145,7 @@ class DefaultController extends AdminController
     public function actionSwitchNode()
     {
         //$switch = $_GET['switch'];
+        /** @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $node */
         $node = Docs::findOne(Yii::$app->request->get('id'));
         $node->switch = ($node->switch == 1) ? 0 : 1;
         $node->saveNode();
@@ -149,6 +162,10 @@ class DefaultController extends AdminController
      */
     public function actionDelete($id)
     {
+        /**
+         * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $model
+         * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $subCategory
+         */
         $model = Docs::findModel($id);
 
         //Delete if not root node
