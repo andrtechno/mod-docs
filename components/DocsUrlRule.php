@@ -2,11 +2,14 @@
 
 namespace panix\mod\docs\components;
 
-use panix\mod\docs\models\Docs;
 use yii\web\UrlRule;
-use yii\web\UrlRuleInterface;
+use panix\mod\docs\models\Docs;
 
-class DocsUrlRule extends UrlRule implements UrlRuleInterface
+/**
+ * Class DocsUrlRule
+ * @package panix\mod\docs\components
+ */
+class DocsUrlRule extends UrlRule
 {
 
     public $pattern = '/docs/<seo_alias:[0-9a-zA-Z\-]+>';
