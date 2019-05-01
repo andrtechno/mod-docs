@@ -28,8 +28,9 @@ class m190501_042437_docs extends Migration
             'depth' => $this->integer()->notNull(),
             'seo_alias' => $this->string(255)->null()->defaultValue(null),
             'full_path' => $this->string(255)->null(),
-            'image' => $this->string(50),
             'switch' => $this->boolean()->defaultValue(1),
+            'created_at' => $this->integer(11)->null(),
+            'updated_at' => $this->integer(11)->null(),
         ], $this->tableOptions);
 
 

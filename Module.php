@@ -15,8 +15,8 @@ class Module extends WebModule implements BootstrapInterface
     public function bootstrap($app)
     {
         $app->getUrlManager()->addRules([
-           // ['class' => 'panix\mod\docs\components\CategoryUrlRule'],
-        ], false);
+            ['class' => 'panix\mod\docs\components\CategoryUrlRule'],
+        ], true);
 
     }
 

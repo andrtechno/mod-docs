@@ -3,21 +3,17 @@
 namespace panix\mod\docs\components;
 
 use panix\mod\docs\models\Docs;
-use yii\web\UrlRuleInterface;
 use yii\web\UrlRule;
 
 class CategoryUrlRule extends UrlRule
 {
-//class CategoryUrlRule extends Object implements UrlRuleInterface {
-    // public $connectionID = 'db';
-    public $pattern = 'shop/category/view';
-    public $route = 'shop/category/view';
 
-    public function createUrl($manager, $route, $params)
+   // public $pattern = 'docs/default/view';
+    public $route = 'docs/default/view';
+
+    public function createUrl2($manager, $route, $params)
     {
-
-
-        if ($route === 'shop/category/view') {
+        if ($route === 'docs/default/view') {
 
             if (isset($params['seo_alias'])) {
                 $url = trim($params['seo_alias'], '/');
@@ -33,27 +29,28 @@ class CategoryUrlRule extends UrlRule
                 $url .= '/' . implode('/', $parts);
             }
 
-            return $url . \Yii::$app->urlManager->suffix;
+            return $url . $this->suffix;
         }
 
         return false;
     }
 
+
+
     public function parseRequest($manager, $request)
     {
-
         $params = [];
         $pathInfo = $request->getPathInfo();
 
         if (empty($pathInfo))
             return false;
 
-        if (\Yii::$app->urlManager->suffix)
-            $pathInfo = strtr($pathInfo, array(\Yii::$app->urlManager->suffix => ''));
+        if ($this->suffix)
+            $pathInfo = strtr($pathInfo, [$this->suffix => '']);
 
+        $pathInfo = str_replace('docs/', '', $pathInfo);
 
         foreach ($this->getAllPaths() as $path) {
-
             if ($path['full_path'] !== '' && strpos($pathInfo, $path['full_path']) === 0) {
                 $_GET['seo_alias'] = $path['full_path'];
                 $uri = str_replace($path['full_path'], '', $pathInfo);
@@ -69,12 +66,9 @@ class CategoryUrlRule extends UrlRule
                 }
 
                 $params['seo_alias'] = ltrim($path['full_path']);
-
-
-                return ['shop/category/view', $params];
+                return ['docs/default/view', $params];
             }
         }
-
         return false;
     }
 
@@ -94,7 +88,7 @@ class CategoryUrlRule extends UrlRule
                 return strlen($b['full_path']) - strlen($a['full_path']);
             });
 
-            \Yii::$app->cache->set(__CLASS__, $allPaths);
+            \Yii::$app->cache->set(__CLASS__, $allPaths,1);
         }
 
         return $allPaths;

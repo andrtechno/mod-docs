@@ -112,39 +112,7 @@ class Docs extends ActiveRecord
         ];
     }
 
-    public function behaviors2()
-    {
-        return array(
-            'tags' => array(
-                'class' => 'app.behaviors.TagsBehavior',
-                'router' => '/docs/default/index'
-            ),
-            'seo' => array(
-                'class' => 'mod.seo.components.SeoBehavior',
-                'url' => $this->getUrl()
-            ),
-            'NestedSetBehavior' => array(
-                'class' => 'app.behaviors.NestedSetBehavior',
-                'leftAttribute' => 'lft',
-                'rightAttribute' => 'rgt',
-                'levelAttribute' => 'level',
-            ),
-            'MenuArrayBehavior' => array(
-                'class' => 'mod.docs.components.MenuArrayBehavior',
-                'labelAttr' => 'name',
-                // 'countProduct'=>false,
-                'urlExpression' => 'array("/docs/default/view", "seo_alias"=>$model->full_path)',
-            ),
-            'TranslateBehavior' => array(
-                'class' => 'app.behaviors.TranslateBehavior',
-                'relationName' => 'cat_translate',
-                'translateAttributes' => array(
-                    'name',
-                    'description',
-                ),
-            ),
-        );
-    }
+
 
     /**
      * @return array relational rules.

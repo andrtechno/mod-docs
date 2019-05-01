@@ -48,9 +48,7 @@ class DefaultController extends WebController
 
     public function actionView($seo_alias)
     {
-
         $this->findModel($seo_alias);
-
 
         $this->pageName = Yii::t('docs/default', 'MODULE_NAME');
 

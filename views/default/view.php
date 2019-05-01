@@ -22,7 +22,7 @@ use panix\engine\Html;
 </script>
 <?php
 //$this->widget('ext.fancybox.Fancybox', array(
- //   'target' => 'a.fancybox',
+//   'target' => 'a.fancybox',
 //));
 ?>
 <?php
@@ -34,8 +34,8 @@ if (isset($subManual)) {
     foreach ($subManual as $row) {
         ?>
         <div style="margin-bottom:20px;list-style: circle">
-            <?= Html::a($row->name, $row->getUrl(), array('title' => $row->name, 'class' => 'h4')) ?>
-            <div class="help-block"></div>
+            <?= Html::a($row->name, $row->getUrl(), ['title' => $row->name, 'class' => 'h4']) ?>
+            <div class="text-muted"></div>
         </div>
         <?php
     }
@@ -44,25 +44,25 @@ if (isset($subManual)) {
 
 
 <?php if ($this->context->model->description) { ?>
-    <div class="manual-view">
-        <h1><?= $this->context->model->name; ?></h1>
-        <div class="mce-content-body">
-    <?= $this->context->model->description; ?>
+<div class="manual-view">
+    <h1><?= $this->context->model->name; ?></h1>
+    <div class="mce-content-body">
+        <?= $this->context->model->description; ?>
+    </div>
+
+    <div class="panel-footer">
+        <div class="date">
+            <i class="flaticon-calendar-2"></i>
+            <?php //echo CMS::date($this->context->model->created_at) ?>
         </div>
 
-        <div class="panel-footer">
-            <div class="date">
-                <i class="flaticon-calendar-2"></i>
-    <?= CMS::date($this->context->model->date_create) ?>
-            </div>
+    </div>
+    <?php
+    } else {
 
-        </div>
-        <?php
-        } else {
-
-               echo 'Информация составляется.';
-        }
-        ?>
+        echo 'Информация составляется.';
+    }
+    ?>
 
 
 </div>
