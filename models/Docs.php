@@ -8,21 +8,21 @@ use panix\engine\behaviors\TranslateBehavior;
 use panix\engine\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use Yii;
+
 class Docs extends ActiveRecord
 {
-
 
     const MODULE_ID = 'docs';
     const route = '/admin/docs/default';
 
-    // public $aliasPathImage = 'uploads.shop.categories';
-
     public $tags;
-    public static function find() {
+
+    public static function find()
+    {
         return new DocsQuery(get_called_class());
     }
 
-    public function title()
+    public function title2()
     {
         if (false) {//Yii::app()->user->isEditMode
             $html = '<form action="' . $this->getUpdateUrl() . '" method="POST">';
@@ -34,7 +34,7 @@ class Docs extends ActiveRecord
         }
     }
 
-    public function text()
+    public function text2()
     {
         if (false) {//Yii::app()->user->isEditMode
             $html = '<form action="' . $this->getUpdateUrl() . '" method="POST">';
@@ -46,49 +46,6 @@ class Docs extends ActiveRecord
         }
     }
 
-    public function getForm()
-    {
-        Yii::import('ext.TagInput');
-        Yii::import('ext.tinymce.TinymceArea');
-        return array(
-            'attributes' => array(
-                'id' => __CLASS__,
-                'class' => 'form-horizontal',
-                'enctype' => 'multipart/form-data',
-            ),
-            'elements' => array(
-                'content' => array(
-                    'type' => 'form',
-                    'title' => Yii::t('admin', 'Общая информация'),
-                    'elements' => array(
-                        'name' => array(
-                            'type' => 'text',
-                            'id' => 'title',
-                        ),
-                        'seo_alias' => array(
-                            'type' => 'text',
-                            'id' => 'alias',
-                            'visible' => (Yii::app()->settings->get('app', 'translate_object_url')) ? false : true
-                        ),
-                        'description' => array(
-                            'type' => 'TinymceArea',
-                        ),
-                        'tags' => array(
-                            'type' => 'TagInput',
-                            'options' => array()
-                        ),
-                    ),
-                ),
-            ),
-            'buttons' => array(
-                'submit' => array(
-                    'type' => 'submit',
-                    'class' => 'btn btn-success',
-                    'label' => ($this->isNewRecord) ? Yii::t('app', 'CREATE', 0) : Yii::t('app', 'SAVE')
-                )
-            )
-        );
-    }
 
     public function overviewImage()
     {
@@ -101,10 +58,10 @@ class Docs extends ActiveRecord
             }
         }
     }
-
+    public $translationClass = DocsTranslate::class;
     public function getTranslations()
     {
-        return $this->hasMany(DocsTranslate::class, ['object_id' => 'id']);
+        return $this->hasMany($this->translationClass, ['object_id' => 'id']);
     }
 
     /**
@@ -115,7 +72,7 @@ class Docs extends ActiveRecord
         return '{{%docs}}';
     }
 
-    public function transactions()
+    public function transactions222()
     {
         return [
             self::SCENARIO_DEFAULT => self::OP_INSERT | self::OP_UPDATE,
@@ -125,7 +82,7 @@ class Docs extends ActiveRecord
     public function behaviors()
     {
         return ArrayHelper::merge([
-            'translate' => [
+            'TranslateBehavior' => [
                 'class' => TranslateBehavior::class,
                 'translationAttributes' => ['name', 'description']
             ],
@@ -137,10 +94,6 @@ class Docs extends ActiveRecord
             ),
             'tree' => [
                 'class' => NestedSetsBehavior::class,
-                // 'treeAttribute' => 'tree',
-                // 'leftAttribute' => 'lft',
-                // 'rightAttribute' => 'rgt',
-                //'levelAttribute' => 'level',
             ],
         ], parent::behaviors());
     }
@@ -148,17 +101,15 @@ class Docs extends ActiveRecord
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules2()
+    public function rules()
     {
-        return array(
-            array('name', 'required'),
-            array('name', 'StripTagsValidator'),
-            array('seo_alias', 'TranslitValidator', 'translitAttribute' => 'name'),
-            array('name, seo_alias, image', 'length', 'max' => 255),
-            array('description, tags', 'type', 'type' => 'string'),
-            // Search
-            array('id, name, seo_alias', 'safe', 'on' => 'search'),
-        );
+        return [
+            ['name', 'required'],
+            [['name', 'seo_alias'], 'trim'],
+            [['name', 'seo_alias'], 'required'],
+            [['name'], 'string', 'max' => 255],
+            ['description', 'safe']
+        ];
     }
 
     public function behaviors2()
@@ -196,52 +147,6 @@ class Docs extends ActiveRecord
     }
 
     /**
-     * Find category by url.
-     * Scope.
-     *
-     * @param string $url
-     * @param string $alias
-     * @return docs
-     */
-    public function withUrl($url, $alias = 't')
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => $alias . '.seo_alias=:url',
-            'params' => array(':url' => $url)
-        ));
-        return $this;
-    }
-
-    /**
-     * Find category by url.
-     * Scope.
-     *
-     * @param string $url
-     * @param string $alias
-     * @return Product
-     */
-    public function withFullPath($url, $alias = 't')
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => $alias . '.full_path=:url',
-            'params' => array(':url' => $url)
-        ));
-        return $this;
-    }
-
-    /**
-     * @param $alias
-     * @return documentation
-     */
-    public function excludeRoot($alias = 't')
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => $alias . '.id != 1',
-        ));
-        return $this;
-    }
-
-    /**
      * @return array relational rules.
      */
     public function relations2()
@@ -255,60 +160,24 @@ class Docs extends ActiveRecord
         );
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels2()
+
+    public function beforeSave($insert)
     {
-        $this->_attrLabels = array(
-            'name' => Yii::t('app', 'Название'),
-            'full_path' => Yii::t('app', 'Полный путь'),
-            'description' => Yii::t('app', 'Описание'),
-        );
-        return CMap::mergeArray($this->_attrLabels, parent::attributeLabels());
-    }
-
-    public function beforeSave2()
-    {
-        if (empty($this->seo_alias)) {
-            // Create slug
-            // Yii::import('ext.SlugHelper.SlugHelper');
-            // $this->seo_alias = SlugHelper::run($this->name);
-        }
-
-        // Check if url available
-        if ($this->isNewRecord) {
-            $test = Docs::model()
-                ->withUrl($this->seo_alias)
-                ->count();
-        } else {
-            $test = Docs::model()
-                ->withUrl($this->seo_alias)
-                ->count('id!=:id', array(':id' => $this->id));
-        }
-
-        // Create unique url
-        if ($test > 0)
-            $this->seo_alias .= '-' . date('YmdHis');
-
         $this->rebuildFullPath();
-
-        return parent::beforeSave();
+        return parent::beforeSave($insert);
     }
 
     public function afterDelete2()
     {
-
         $this->clearRouteCache();
-
         return parent::afterDelete();
     }
 
-    public function afterSave2()
+
+    public function afterSave($insert, $changedAttributes)
     {
         $this->clearRouteCache();
-
-        return parent::afterSave();
+        return parent::afterSave($insert, $changedAttributes);
     }
 
     /**
@@ -317,7 +186,7 @@ class Docs extends ActiveRecord
     public function rebuildFullPath()
     {
         // Create category full path.
-        $ancestors = $this->ancestors()->language(Yii::app()->languageManager->active->code)->findAll();
+        $ancestors = $this->ancestors()->addOrderBy('depth')->all();
         if (sizeof($ancestors)) {
             // Remove root category from path
             unset($ancestors[0]);
@@ -338,17 +207,14 @@ class Docs extends ActiveRecord
      */
     public static function flatTree()
     {
-        $result = array();
-        $categories = Docs::model()
-            ->published()
-            ->language(Yii::app()->languageManager->active->code)
-            ->findAll(array('order' => 'lft'));
+        $result = [];
+        $categories = Docs::find()->orderBy(['lft' => SORT_ASC])->all();
         array_shift($categories);
 
         foreach ($categories as $c) {
 
-            if ($c->level > 2) {
-                $result[$c->id] = str_repeat('--', $c->level - 1) . ' ' . $c->name;
+            if ($c->depth > 1) {
+                $result[$c->id] = str_repeat('--', $c->depth - 1) . ' ' . $c->name;
             } else {
                 $result[$c->id] = ' ' . $c->name;
             }
@@ -358,19 +224,17 @@ class Docs extends ActiveRecord
     }
 
 
-
     /**
-     * @return string
+     * @return array
      */
     public function getUrl()
     {
-        $url = ['/docs/default/view', 'seo_alias' => $this->full_path];
-        return $url;
+        return ['/docs/default/view', 'seo_alias' => $this->full_path];
     }
 
     public function clearRouteCache()
     {
-        Yii::app()->cache->delete('DocsUrlRule');
+        Yii::$app->cache->delete('DocsUrlRule');
     }
 
 }

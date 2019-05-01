@@ -12,10 +12,6 @@ echo ListView::widget([
     'emptyText' => 'Empty',
     'options' => ['class' => 'row list-view'],
     'itemOptions' => ['class' => 'item'],
-    'pager' => [
-        'class' => \kop\y2sp\ScrollPager::className(),
-        'triggerTemplate' => '<div class="ias-trigger" style="text-align: center; cursor: pointer;"><a href="javascript:void(0)">{text}</a></div>'
-    ],
     'emptyTextOptions' => ['class' => 'alert alert-info']
 ]);
 ?>

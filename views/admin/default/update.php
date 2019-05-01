@@ -1,36 +1,37 @@
 <?php
-$this->widget('ext.fancybox.Fancybox', array(
-    'target' => 'a.overview-image',
-    'config' => array(),
-));
+
+use yii\helpers\Html;
+use panix\engine\bootstrap\ActiveForm;
 
 
-$checkRoot = Docs::model()
-        ->findByPk(1);
-if (!$checkRoot) {
-    // throw new CHttpException(404,'no root');
-    Yii::app()->tpl->alert('warning', 'Необходимо создать root категорию. <a href="/admin/documentation/default/createRoot">создать</a>', false);
-} else {
-    ?>
-    <div class="row">
-                <div class="col-lg-12">
-            <?php $this->renderPartial('_categories', array('model' => $model)); ?>
+?>
+
+<div class="row">
+    <div class="col-sm-12 col-md-7 col-lg-8">
+        <?php
+        $form = ActiveForm::begin();
+        ?>
+        <div class="card bg-light">
+            <div class="card-header">
+                <h5><?= Html::encode($this->context->pageName) ?></h5>
+            </div>
+            <div class="card-body">
+                <?php
+                echo $form->field($model,'name');
+                ?>
+                <?php
+                echo $form->field($model,'seo_alias');
+                ?>
+                <?= $form->field($model, 'description')->widget(\panix\ext\tinymce\TinyMce::class, ['options' => ['rows' => 6]]); ?>
+            </div>
+            <div class="card-footer text-center">
+                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'CREATE') : Yii::t('app', 'UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+
         </div>
-        <div class="col-lg-12">
-            <?php
-            Yii::app()->tpl->openWidget(array(
-                'title' => $this->pageName,
-            ));
-            echo $form->tabs();
-            Yii::app()->tpl->closeWidget();
-            ?>
-        </div>
-
-
-
+        <?php ActiveForm::end(); ?>
     </div>
-    <script type="text/javascript">init_translitter('Docs', '<?= $model->primaryKey; ?>', false);</script>
-
-    <?php
-}
-
+    <div class="col-sm-12 col-md-5 col-lg-4">
+        <?php echo $this->render('_categories', ['model' => $model]); ?>
+    </div>
+</div>

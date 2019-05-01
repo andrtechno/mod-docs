@@ -1,9 +1,12 @@
 <?php
-Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl . '/admin/tree.js', CClientScript::POS_END);
+/*Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl . '/admin/tree.js', CClientScript::POS_END);
 Yii::app()->tpl->openWidget(array(
     'title' => 'Каталог',
     'htmlOptions' => array('class' => 'form-horizontal')
 ));
+*/
+\panix\mod\shop\bundles\admin\CategoryAsset::register($this);
+
 ?>
 <div class="form-group">
     <div class="col-xs-12">
@@ -12,94 +15,78 @@ Yii::app()->tpl->openWidget(array(
 </div>
 <div class="clearfix"></div>
 <?php
-Yii::app()->tpl->alert('info', Yii::t('admin', "Используйте 'drag-and-drop' для сортировки категорий."), false);
+//Yii::app()->tpl->alert('info', Yii::t('admin', "Используйте 'drag-and-drop' для сортировки категорий."), false);
 ?>
 
 <?php
-$this->widget('ext.jstree.JsTree', array(
-    'id' => 'DocsTree',
-    'data' => DocsNode::fromArray(Docs::model()->findAllByPk(1), array('switch' => true)),
-    'options' => array(
-        /*  "panix" => 'js:function (node) {
-          console.log(node);
-          return node.text === "Насосное оборудование" ? true : false;
-          }', */
-        'core' => array(
-            'force_text' => true,
-            'animation' => 0,
-            'strings' => array('Loading ...' => 'Please wait ...'),
-            'check_callback' => true,
-            "themes" => array("stripes" => true, 'responsive' => true),
-            "check_callback" => 'js:function (operation, node, parent, position, more) {
-                    console.log(operation);
-                    if(operation === "copy_node" || operation === "move_node") {
 
-                    } else if (operation === "delete_node"){
-                    
-                    } else if (operation === "rename_node") {
-               
-              
-                    }
-                      return true; // allow everything else
-                    }
-    
-    
-        '),
-        'plugins' => array('dnd', 'search', 'contextmenu', 'wholerow', 'state'),
-
-        'contextmenu' => array(
-            'items' => 'js:function($node) {
-                var tree = $("#DocsTree").jstree(true);
+echo \panix\ext\jstree\JsTree::widget([
+    'id' => 'CategoryTree',
+    'name' => 'jstree',
+    'allOpen' => true,
+    'data' => \panix\mod\docs\components\CategoryNode::fromArray(\panix\mod\docs\models\Docs::findOne(1)->children()->all(), ['switch' => true]),
+    'core' => [
+        'force_text' => true,
+        'animation' => 0,
+        'strings' => [
+            'Loading ...' => Yii::t('app', 'LOADING')
+        ],
+        "themes" => ["stripes" => true, 'responsive' => true, "variant" => "large"],
+        'check_callback' => true
+    ],
+    'plugins' => ['dnd', 'contextmenu', 'search', 'wholerow', 'state'],
+    'contextmenu' => [
+        'items' => new yii\web\JsExpression('function($node) {
+                var tree = $("#jsTree_CategoryTree").jstree(true);
                 return {
                     "Switch": {
-                        "icon":"flaticon-eye",
+                        "icon":"icon-eye",
                         "label": "' . Yii::t('app', 'Скрыть показать') . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                           // console.log($node);
-                            switchNode($node);
+                            categorySwitch($node);
                         }
                     }, 
                     "Add": {
-                        "icon":"flaticon-add",
-                        "label": "' . Yii::t('app', 'CREATE',0) . '",
+                        "icon":"icon-add",
+                        "label": "' . Yii::t('app', 'CREATE') . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                            window.location = "/admin/docs/default/create/parent_id/"+$node.id.replace("node_", "");
+                            console.log($node);
+                            window.location = "/admin/docs/default/create?parent_id="+$node.id.replace("node_", "");
                         }
                     }, 
                     "Edit": {
-                        "icon":"flaticon-edit",
-                        "label": "' . Yii::t('app', 'UPDATE',0) . '",
+                        "icon":"icon-edit",
+                        "label": "' . Yii::t('app', 'UPDATE') . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                           window.location = "/admin/docs/default/update/id/"+$node.id.replace("node_", "");
+                           window.location = "/admin/docs/default/update?id="+$node.id.replace("node_", "");
                         }
                     },  
                     "Rename": {
-                        "icon":"flaticon-edit",
+                        "icon":"icon-rename",
                         "label": "' . Yii::t('app', 'RENAME') . '",
                         "action": function (obj) {
+                            console.log($node);
                             tree.edit($node);
                         }
                     },                         
                     "Remove": {
-                        "icon":"flaticon-trashcan",
+                        "icon":"icon-trashcan",
                         "label": "' . Yii::t('app', 'DELETE') . '",
-                        "action": function (obj) { 
-                            tree.delete_node($node);
+                        "action": function (obj) {
+                            if (confirm("' . Yii::t('app', 'DELETE_CONFIRM') . '\nТак же будут удалены все товары.")) {
+                                tree.delete_node($node);
+                            }
                         }
                     }
                 };
-            }'
-        )
-    ),
-));
+      }')
+    ]
+]);
 ?>
 
-
-<?php
-Yii::app()->tpl->closeWidget();
 
 
 

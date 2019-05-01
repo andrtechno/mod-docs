@@ -16,7 +16,7 @@ class CategoriesWidget extends Widget {
 
     public function run() {
 
-        $model = Docs::findOne(1);
+        $model = Docs::findModel(1);
 
         if (!$model) {
             die(__CLASS__.'err');

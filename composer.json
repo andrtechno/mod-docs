@@ -13,6 +13,9 @@
             "homepage": "https://pixelion.com.ua"
         }
     ],
+    "require": {
+        "panix/wgt-jstree": "*"
+    },
     "autoload": {
         "psr-4": {
             "panix\\mod\\docs\\": ""

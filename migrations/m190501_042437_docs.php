@@ -15,13 +15,14 @@ use panix\mod\docs\models\Docs;
 use panix\engine\db\Migration;
 use panix\mod\docs\models\DocsTranslate;
 
-class m190501_042437_docs extends Migration {
+class m190501_042437_docs extends Migration
+{
 
     // Use up()/down() to run migration code without a transaction.
-    public function up() {
+    public function up()
+    {
         $this->createTable(Docs::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
-            'tree' => $this->integer()->null(),
             'lft' => $this->integer()->notNull(),
             'rgt' => $this->integer()->notNull(),
             'depth' => $this->integer()->notNull(),
@@ -48,9 +49,20 @@ class m190501_042437_docs extends Migration {
 
         $this->createIndex('object_id', DocsTranslate::tableName(), 'object_id');
         $this->createIndex('language_id', DocsTranslate::tableName(), 'language_id');
+
+        //create root
+        $this->batchInsert(Docs::tableName(), ['lft', 'rgt', 'depth', 'seo_alias', 'full_path', 'switch'], [
+            [1, 2, 1, 'root', '', 1]
+        ]);
+
+        $this->batchInsert(DocsTranslate::tableName(), ['object_id', 'language_id', 'name', 'text'], [
+            [1, 1, 'Документация', '']
+        ]);
+
     }
 
-    public function down() {
+    public function down()
+    {
         echo "m190501_042437_docs cannot be reverted.\n";
         $this->dropTable(Docs::tableName());
         $this->dropTable(DocsTranslate::tableName());

@@ -5,18 +5,20 @@ namespace panix\mod\docs;
 use Yii;
 use panix\engine\Html;
 use panix\engine\WebModule;
+use yii\base\BootstrapInterface;
 
-class Module extends WebModule
+class Module extends WebModule implements BootstrapInterface
 {
 
     public $tegRoute = 'documentation/default/index';
 
-    public $routes = [
-        /*'documentation/tag/<tag:.*?>' => 'documentation/default/index',*/
-        ['class' => 'panix\mod\docs\components\DocsUrlRule'],
-        //'documentation' => 'documentation/default/index',
-    ];
+    public function bootstrap($app)
+    {
+        $app->getUrlManager()->addRules([
+           // ['class' => 'panix\mod\docs\components\CategoryUrlRule'],
+        ], false);
 
+    }
 
     public function getAdminMenu()
     {
