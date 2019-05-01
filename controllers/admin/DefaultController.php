@@ -111,8 +111,9 @@ class DefaultController extends AdminController
 
         if ((int)$_GET['position'] > 0) {
             $pos = (int)$_GET['position'];
-            $childs = $target->children()->all()->asArray();
-            if (isset($childs[$pos - 1]) && $childs[$pos - 1] instanceof Docs && $childs[$pos - 1]['id'] != $node->id)
+            $childs = $target->children()->all();
+          // print_r($childs);die;
+            if (isset($childs[$pos - 1]) && $childs[$pos - 1]['id'] != $node->id)
                 $node->moveAfter($childs[$pos - 1]);
         } else
             $node->moveAsFirst($target);
@@ -152,7 +153,7 @@ class DefaultController extends AdminController
 
         //Delete if not root node
         if ($model && $model->id != 1) {
-            foreach (array_reverse($model->descendants()->findAll()) as $subCategory) {
+            foreach (array_reverse($model->descendants()->all()) as $subCategory) {
                 $subCategory->deleteNode();
             }
             $model->deleteNode();
@@ -169,7 +170,6 @@ class DefaultController extends AdminController
         $model->depth = 1;
         $model->seo_alias = 'root';
         $model->full_path = '';
-        $model->image = NULL;
         $model->switch = 1;
         $model->saveNode();
         return $this->redirect(['create']);
