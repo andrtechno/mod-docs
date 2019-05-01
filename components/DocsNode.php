@@ -1,12 +1,12 @@
 <?php
 namespace panix\mod\docs\components;
 /**
- * Present Documentation as JsTree node.
+ * Present Docs as JsTree node.
  */
-class DocumentationNode extends CComponent implements ArrayAccess {
+class DocsNode extends CComponent implements ArrayAccess {
 
     /**
-     * @var Documentation
+     * @var Docs
      */
     protected $model;
 
@@ -37,9 +37,9 @@ class DocumentationNode extends CComponent implements ArrayAccess {
     protected $options = array();
 
     /**
-     * @param Documentation $model
+     * @param Docs $model
      */
-    public function __construct(Documentation $model, $options = array()) {
+    public function __construct(Docs $model, $options = array()) {
         $this->options = & $options;
         $this->model = & $model;
         return $this;
@@ -55,7 +55,7 @@ class DocumentationNode extends CComponent implements ArrayAccess {
         $result = array();
         foreach ($model as $row){
             if($options['switch'] || $row->switch)
-                $result[] = new DocumentationNode($row, $options);
+                $result[] = new DocsNode($row, $options);
         }
         return $result;
     }

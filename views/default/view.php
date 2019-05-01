@@ -1,5 +1,5 @@
 <?php
-use panix\mod\docs\models\Documentation;
+use panix\mod\docs\models\Docs;
 use panix\engine\CMS;
 use panix\engine\Html;
 
@@ -28,7 +28,7 @@ use panix\engine\Html;
 <?php
 
 
-$subManual = Documentation::findOne($this->context->model->id)->children()->all();
+$subManual = Docs::findOne($this->context->model->id)->children()->all();
 if (isset($subManual)) {
 
     foreach ($subManual as $row) {

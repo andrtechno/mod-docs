@@ -7,7 +7,7 @@ Yii::app()->tpl->openWidget(array(
 ?>
 <div class="form-group">
     <div class="col-xs-12">
-        <input class="form-control" placeholder="Поиск..." type="text" onkeyup='$("#DocumentationTree").jstree(true).search($(this).val())' />
+        <input class="form-control" placeholder="Поиск..." type="text" onkeyup='$("#DocsTree").jstree(true).search($(this).val())' />
     </div>
 </div>
 <div class="clearfix"></div>
@@ -17,8 +17,8 @@ Yii::app()->tpl->alert('info', Yii::t('admin', "Используйте 'drag-and
 
 <?php
 $this->widget('ext.jstree.JsTree', array(
-    'id' => 'DocumentationTree',
-    'data' => DocumentationNode::fromArray(Documentation::model()->findAllByPk(1), array('switch' => true)),
+    'id' => 'DocsTree',
+    'data' => DocsNode::fromArray(Docs::model()->findAllByPk(1), array('switch' => true)),
     'options' => array(
         /*  "panix" => 'js:function (node) {
           console.log(node);
@@ -49,7 +49,7 @@ $this->widget('ext.jstree.JsTree', array(
 
         'contextmenu' => array(
             'items' => 'js:function($node) {
-                var tree = $("#DocumentationTree").jstree(true);
+                var tree = $("#DocsTree").jstree(true);
                 return {
                     "Switch": {
                         "icon":"flaticon-eye",
@@ -65,7 +65,7 @@ $this->widget('ext.jstree.JsTree', array(
                         "label": "' . Yii::t('app', 'CREATE',0) . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                            window.location = "/admin/documentation/default/create/parent_id/"+$node.id.replace("node_", "");
+                            window.location = "/admin/docs/default/create/parent_id/"+$node.id.replace("node_", "");
                         }
                     }, 
                     "Edit": {
@@ -73,7 +73,7 @@ $this->widget('ext.jstree.JsTree', array(
                         "label": "' . Yii::t('app', 'UPDATE',0) . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                           window.location = "/admin/documentation/default/update/id/"+$node.id.replace("node_", "");
+                           window.location = "/admin/docs/default/update/id/"+$node.id.replace("node_", "");
                         }
                     },  
                     "Rename": {

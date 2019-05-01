@@ -1,7 +1,7 @@
 <?php
 namespace panix\mod\docs\widgets\categories;
 
-use panix\mod\docs\models\Documentation;
+use panix\mod\docs\models\Docs;
 use panix\mod\docs\models\CategoryNode;
 use panix\engine\data\Widget;
 use yii\helpers\Html;
@@ -16,7 +16,7 @@ class CategoriesWidget extends Widget {
 
     public function run() {
 
-        $model = Documentation::findOne(1);
+        $model = Docs::findOne(1);
 
         if (!$model) {
             die(__CLASS__.'err');

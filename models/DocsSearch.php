@@ -8,7 +8,7 @@ use panix\engine\data\ActiveDataProvider;
 use yii\data\Sort;
 
 
-class DocumentationSearch extends Documentation {
+class DocsSearch extends Docs {
 
     /**
      * @inheritdoc
@@ -36,7 +36,7 @@ class DocumentationSearch extends Documentation {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Documentation::find();
+        $query = Docs::find();
         //$query->joinWith('translations');
         //$query->with('translations');
         $dataProvider = new ActiveDataProvider([

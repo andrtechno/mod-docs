@@ -5,7 +5,7 @@ $this->widget('ext.fancybox.Fancybox', array(
 ));
 
 
-$checkRoot = Documentation::model()
+$checkRoot = Docs::model()
         ->findByPk(1);
 if (!$checkRoot) {
     // throw new CHttpException(404,'no root');
@@ -29,7 +29,7 @@ if (!$checkRoot) {
 
 
     </div>
-    <script type="text/javascript">init_translitter('Documentation', '<?= $model->primaryKey; ?>', false);</script>
+    <script type="text/javascript">init_translitter('Docs', '<?= $model->primaryKey; ?>', false);</script>
 
     <?php
 }

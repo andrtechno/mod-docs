@@ -1,9 +1,9 @@
-var treeSelector = $('#DocumentationTree');
+var treeSelector = $('#DocsTree');
 treeSelector.bind('move_node.jstree', function (node, parent) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: '/admin/documentation/default/moveNode',
+        url: '/admin/docs/default/moveNode',
         data: {
             'id': parent.node.id.replace('node_', ''),
             'ref': parent.parent.replace('node_', ''),
@@ -17,7 +17,7 @@ treeSelector.bind('rename_node.jstree', function (node, text) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: "/admin/documentation/default/renameNode",
+            url: "/admin/docs/default/renameNode",
             dataType: 'json',
             data: {
                 "id": text.node.id.replace('node_', ''),
@@ -36,7 +36,7 @@ treeSelector.bind('create_node.jstree', function (node, parent, position) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/documentation/default/createNode",
+        url: "/admin/docs/default/createNode",
         dataType: 'json',
         data: {
             text: parent.node.text,
@@ -52,7 +52,7 @@ treeSelector.bind("delete_node.jstree", function (node, parent) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/documentation/default/delete",
+        url: "/admin/docs/default/delete",
         data: {
             "id": parent.node.id.replace('node_', '')
         }
@@ -63,7 +63,7 @@ function switchNode(node) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/documentation/default/switchNode",
+        url: "/admin/docs/default/switchNode",
         dataType: 'json',
         data: {
             id: node.id.replace('node_', ''),

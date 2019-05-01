@@ -2,21 +2,21 @@
 
 namespace panix\mod\docs\components;
 
-use panix\mod\docs\models\Documentation;
+use panix\mod\docs\models\Docs;
 use yii\web\UrlRuleInterface;
 use yii\base\Object;
 use yii\web\UrlRule;
 
-class DocumentationUrlRule extends UrlRule {
+class DocsUrlRule extends UrlRule {
 //class CategoryUrlRule extends Object implements UrlRuleInterface {
     // public $connectionID = 'db';
     public $pattern = 'documentation';
-    public $route = 'documentation/default/view';
+    public $route = 'docs/default/view';
 
     public function createUrl($manager, $route, $params) {
 
 
-        if ($route === 'documentation/default/view') {
+        if ($route === 'docs/default/view') {
 
             if (isset($params['seo_alias'])) {
                 $url = trim($params['seo_alias'], '/');
@@ -70,7 +70,7 @@ class DocumentationUrlRule extends UrlRule {
                 $params['seo_alias'] = ltrim($path['full_path']);
 
 
-                return ['documentation/default/view', $params];
+                return ['docs/default/view', $params];
             }
         }
 
@@ -83,7 +83,7 @@ class DocumentationUrlRule extends UrlRule {
             $allPaths = (new \yii\db\Query())
                 ->select(['full_path'])
                 ->andWhere('id!=:id', [':id' => 1])
-                ->from(Documentation::tableName())
+                ->from(Docs::tableName())
                 ->all();
 
 

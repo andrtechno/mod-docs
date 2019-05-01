@@ -2,31 +2,31 @@
 
 namespace panix\mod\docs\models;
 
-use panix\mod\docs\documentation\components\MenuArrayBehavior;
+use panix\mod\docs\components\MenuArrayBehavior;
 use panix\engine\behaviors\nestedsets\NestedSetsBehavior;
 use panix\engine\behaviors\TranslateBehavior;
 use panix\engine\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use Yii;
-class Documentation extends ActiveRecord
+class Docs extends ActiveRecord
 {
 
 
-    const MODULE_ID = 'documentation';
-    const route = '/admin/documentation/default';
+    const MODULE_ID = 'docs';
+    const route = '/admin/docs/default';
 
     // public $aliasPathImage = 'uploads.shop.categories';
 
     public $tags;
     public static function find() {
-        return new DocumentationQuery(get_called_class());
+        return new DocsQuery(get_called_class());
     }
 
     public function title()
     {
         if (false) {//Yii::app()->user->isEditMode
             $html = '<form action="' . $this->getUpdateUrl() . '" method="POST">';
-            $html .= '<span id="Documentation[name]" class="edit_mode_title">' . $this->name . '</span>';
+            $html .= '<span id="Docs[name]" class="edit_mode_title">' . $this->name . '</span>';
             $html .= '</form>';
             return $html;
         } else {
@@ -38,7 +38,7 @@ class Documentation extends ActiveRecord
     {
         if (false) {//Yii::app()->user->isEditMode
             $html = '<form action="' . $this->getUpdateUrl() . '" method="POST">';
-            $html .= '<div id="Documentation[description]" class="edit_mode_text">' . $this->description . '</div>';
+            $html .= '<div id="Docs[description]" class="edit_mode_text">' . $this->description . '</div>';
             $html .= '</form>';
             return $html;
         } else {
@@ -104,7 +104,7 @@ class Documentation extends ActiveRecord
 
     public function getTranslations()
     {
-        return $this->hasMany(DocumentationTranslate::className(), ['object_id' => 'id']);
+        return $this->hasMany(DocsTranslate::class, ['object_id' => 'id']);
     }
 
     /**
@@ -112,7 +112,7 @@ class Documentation extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%documentation}}';
+        return '{{%docs}}';
     }
 
     public function transactions()
@@ -126,17 +126,17 @@ class Documentation extends ActiveRecord
     {
         return ArrayHelper::merge([
             'translate' => [
-                'class' => TranslateBehavior::className(),
+                'class' => TranslateBehavior::class,
                 'translationAttributes' => ['name', 'description']
             ],
             'MenuArrayBehavior' => array(
-                'class' => MenuArrayBehavior::className(),
+                'class' => MenuArrayBehavior::class,
                 'labelAttr' => 'name',
                 // 'countProduct'=>false,
-                'urlExpression' => '["/documentation/default/view", "seo_alias"=>$model->full_path]',
+                'urlExpression' => '["/docs/default/view", "seo_alias"=>$model->full_path]',
             ),
             'tree' => [
-                'class' => NestedSetsBehavior::className(),
+                'class' => NestedSetsBehavior::class,
                 // 'treeAttribute' => 'tree',
                 // 'leftAttribute' => 'lft',
                 // 'rightAttribute' => 'rgt',
@@ -166,7 +166,7 @@ class Documentation extends ActiveRecord
         return array(
             'tags' => array(
                 'class' => 'app.behaviors.TagsBehavior',
-                'router' => '/documentation/default/index'
+                'router' => '/docs/default/index'
             ),
             'seo' => array(
                 'class' => 'mod.seo.components.SeoBehavior',
@@ -179,10 +179,10 @@ class Documentation extends ActiveRecord
                 'levelAttribute' => 'level',
             ),
             'MenuArrayBehavior' => array(
-                'class' => 'mod.documentation.components.MenuArrayBehavior',
+                'class' => 'mod.docs.components.MenuArrayBehavior',
                 'labelAttr' => 'name',
                 // 'countProduct'=>false,
-                'urlExpression' => 'array("/documentation/default/view", "seo_alias"=>$model->full_path)',
+                'urlExpression' => 'array("/docs/default/view", "seo_alias"=>$model->full_path)',
             ),
             'TranslateBehavior' => array(
                 'class' => 'app.behaviors.TranslateBehavior',
@@ -201,7 +201,7 @@ class Documentation extends ActiveRecord
      *
      * @param string $url
      * @param string $alias
-     * @return documentation
+     * @return docs
      */
     public function withUrl($url, $alias = 't')
     {
@@ -218,7 +218,7 @@ class Documentation extends ActiveRecord
      *
      * @param string $url
      * @param string $alias
-     * @return ShopProduct
+     * @return Product
      */
     public function withFullPath($url, $alias = 't')
     {
@@ -249,8 +249,8 @@ class Documentation extends ActiveRecord
         return array(
             //  'countProducts' => array(self::STAT, 'ShopProductCategoryRef', 'category', 'condition' => '`t`.`switch`=1'),
             //  'manufacturer' => array(self::HAS_MANY, 'ShopManufacturer', 'cat_id'),
-            'pages' => array(self::MANY_MANY, 'Documentation', array('category_id' => 'id')),
-            'pages2' => array(self::BELONGS_TO, 'Documentation', 'id'),
+            'pages' => array(self::MANY_MANY, 'Docs', array('category_id' => 'id')),
+            'pages2' => array(self::BELONGS_TO, 'Docs', 'id'),
             'cat_translate' => array(self::HAS_ONE, $this->translateModelName, 'object_id'),
         );
     }
@@ -278,11 +278,11 @@ class Documentation extends ActiveRecord
 
         // Check if url available
         if ($this->isNewRecord) {
-            $test = Documentation::model()
+            $test = Docs::model()
                 ->withUrl($this->seo_alias)
                 ->count();
         } else {
-            $test = Documentation::model()
+            $test = Docs::model()
                 ->withUrl($this->seo_alias)
                 ->count('id!=:id', array(':id' => $this->id));
         }
@@ -339,7 +339,7 @@ class Documentation extends ActiveRecord
     public static function flatTree()
     {
         $result = array();
-        $categories = Documentation::model()
+        $categories = Docs::model()
             ->published()
             ->language(Yii::app()->languageManager->active->code)
             ->findAll(array('order' => 'lft'));
@@ -364,13 +364,13 @@ class Documentation extends ActiveRecord
      */
     public function getUrl()
     {
-        $url = ['/documentation/default/view', 'seo_alias' => $this->full_path];
+        $url = ['/docs/default/view', 'seo_alias' => $this->full_path];
         return $url;
     }
 
     public function clearRouteCache()
     {
-        Yii::app()->cache->delete('DocumentationUrlRule');
+        Yii::app()->cache->delete('DocsUrlRule');
     }
 
 }

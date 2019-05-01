@@ -1,8 +1,8 @@
 <?php
 namespace panix\mod\docs\controllers;
 
-use panix\mod\docs\models\Documentation;
-use panix\mod\docs\models\DocumentationSearch;
+use panix\mod\docs\models\Docs;
+use panix\mod\docs\models\DocsSearch;
 use panix\engine\controllers\WebController;
 use Yii;
 
@@ -24,7 +24,7 @@ class DefaultController extends WebController
     public $query;
 
     /**
-     * @var Documentation
+     * @var Docs
      */
     public $model;
 
@@ -36,7 +36,7 @@ class DefaultController extends WebController
     public function actionIndex()
     {
 
-        $searchModel = new DocumentationSearch();
+        $searchModel = new DocsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 
@@ -52,7 +52,7 @@ class DefaultController extends WebController
         $this->findModel($seo_alias);
 
 
-        $this->pageName = Yii::t('documentation/default', 'MODULE_NAME');
+        $this->pageName = Yii::t('docs/default', 'MODULE_NAME');
 
         //$ancestors = $this->model->excludeRoot()->ancestors()->findAll();
         //$this->breadcrumbs = array(Yii::t('documentation/default', 'MODULE_NAME') => array('/documentation'));
@@ -69,7 +69,7 @@ class DefaultController extends WebController
 
     protected function findModel($url) {
        // $url = str_replace('documentation/', '', $url);
-        $model = new Documentation;
+        $model = new Docs;
         if (($this->model = $model::find()->where(['full_path' => $url])->one()) !== null) {
             return $this->model;
         } else {

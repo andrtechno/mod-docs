@@ -2,10 +2,10 @@
 
 namespace panix\mod\docs\models;
 
-use panix\engine\traits\DefaultQueryTrait;
+use panix\engine\traits\query\DefaultQueryTrait;
 use yii\db\ActiveQuery;
 
-class DocumentationQuery extends ActiveQuery
+class DocsQuery extends ActiveQuery
 {
 
     use DefaultQueryTrait;

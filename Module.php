@@ -13,7 +13,7 @@ class Module extends WebModule
 
     public $routes = [
         /*'documentation/tag/<tag:.*?>' => 'documentation/default/index',*/
-        ['class' => 'panix\mod\docs\components\DocumentationUrlRule'],
+        ['class' => 'panix\mod\docs\components\DocsUrlRule'],
         //'documentation' => 'documentation/default/index',
     ];
 
@@ -25,7 +25,7 @@ class Module extends WebModule
                 'items' => [
                     [
                         'label' => 'docs',
-                        'url' => ['/admin/documentation'],
+                        'url' => ['/admin/docs'],
                         'icon' => Html::icon('icon'),
                     ]
                 ]
@@ -42,12 +42,12 @@ class Module extends WebModule
     public function getInfo()
     {
         return [
-            'label' => Yii::t('documentation/default', 'MODULE_NAME'),
+            'label' => Yii::t('docs/default', 'MODULE_NAME'),
             'author' => 'andrew.panix@gmail.com',
             'version' => '1.0',
             'icon' => 'icon-documentation',
-            'description' => Yii::t('documentation/default', 'MODULE_DESC'),
-            'url' => ['/admin/documentation'],
+            'description' => Yii::t('docs/default', 'MODULE_DESC'),
+            'url' => ['/admin/docs'],
         ];
     }
 }

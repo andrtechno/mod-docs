@@ -4,13 +4,13 @@ namespace panix\mod\docs\models;
 
 use yii\db\ActiveRecord;
 
-class DocumentationTranslate extends ActiveRecord
+class DocsTranslate extends ActiveRecord
 {
 
 
     public static function tableName()
     {
-        return '{{%documentation_translate}}';
+        return '{{%docs_translate}}';
     }
 
 

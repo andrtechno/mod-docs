@@ -10,7 +10,7 @@ class DefaultController extends AdminController {
 
     public function actionIndex() {
         die('adminm');
-        $this->pageName = Yii::t('documentation/default', 'MODULE_NAME');
+        $this->pageName = Yii::t('docs/default', 'MODULE_NAME');
         $this->breadcrumbs = array(
        
             $this->pageName
@@ -20,9 +20,9 @@ class DefaultController extends AdminController {
 
     public function actionUpdate($new = false) {
         if ($new === true)
-            $model = new Documentation;
+            $model = new Docs;
         else {
-            $model = Documentation::model()
+            $model = Docs::model()
                     ->findByPk($_GET['id']);
         }
 
@@ -32,13 +32,13 @@ class DefaultController extends AdminController {
 
 
         if (Yii::app()->request->isPostRequest) {
-            $model->attributes = $_POST['Documentation'];
+            $model->attributes = $_POST['Docs'];
 
             if ($model->validate()) {
                 if (isset($_GET['parent_id'])) {
-                    $parent = Documentation::model()->findByPk($_GET['parent_id']);
+                    $parent = Docs::model()->findByPk($_GET['parent_id']);
                 } else {
-                    $parent = Documentation::model()->findByPk(1);
+                    $parent = Docs::model()->findByPk(1);
                 }
                 if ($model->getIsNewRecord()) {
                     $model->appendTo($parent);
@@ -76,7 +76,7 @@ class DefaultController extends AdminController {
             $id= str_replace('j1_', '', $_GET['id']);
         }
          
-        $model = Documentation::model()->findByPk((int)$id);
+        $model = Docs::model()->findByPk((int)$id);
         if ($model) {
             $model->name = $_GET['text'];
             $model->seo_alias = CMS::translit($model->name);
@@ -96,8 +96,8 @@ class DefaultController extends AdminController {
     
     
     public function actionCreateNode() {
-        $model = new Documentation;
-        $parent = Documentation::model()->findByPk($_GET['parent_id']);
+        $model = new Docs;
+        $parent = Docs::model()->findByPk($_GET['parent_id']);
 
             $model->name = $_GET['text'];
             $model->seo_alias = CMS::translit($model->name);
@@ -118,13 +118,13 @@ class DefaultController extends AdminController {
      * Drag-n-drop nodes
      */
     public function actionMoveNode() {
-        $node = Documentation::model()->findByPk($_GET['id']);
-        $target = Documentation::model()->findByPk($_GET['ref']);
+        $node = Docs::model()->findByPk($_GET['id']);
+        $target = Docs::model()->findByPk($_GET['ref']);
 
         if ((int) $_GET['position'] > 0) {
             $pos = (int) $_GET['position'];
             $childs = $target->children()->findAll();
-            if (isset($childs[$pos - 1]) && $childs[$pos - 1] instanceof Documentation && $childs[$pos - 1]['id'] != $node->id)
+            if (isset($childs[$pos - 1]) && $childs[$pos - 1] instanceof Docs && $childs[$pos - 1]['id'] != $node->id)
                 $node->moveAfter($childs[$pos - 1]);
         } else
             $node->moveAsFirst($target);
@@ -136,13 +136,13 @@ class DefaultController extends AdminController {
      * Redirect to category front.
      */
     public function actionRedirect() {
-        $node = Documentation::model()->findByPk($_GET['id']);
+        $node = Docs::model()->findByPk($_GET['id']);
         $this->redirect($node->getViewUrl());
     }
 
     public function actionSwitchNode() {
         //$switch = $_GET['switch'];
-        $node = Documentation::model()->findByPk($_GET['id']);
+        $node = Docs::model()->findByPk($_GET['id']);
         $node->switch = ($node->switch == 1) ? 0 : 1;
         $node->saveNode();
         echo CJSON::encode(array(
@@ -157,7 +157,7 @@ class DefaultController extends AdminController {
      * @throws CHttpException
      */
     public function actionDelete($id) {
-        $model = Documentation::model()->findByPk($id);
+        $model = Docs::model()->findByPk($id);
 
         //Delete if not root node
         if ($model && $model->id != 1) {
@@ -169,7 +169,7 @@ class DefaultController extends AdminController {
     }
     //TODO need multi language add and test
     public function actionCreateRoot() {
-        $model = new Documentation();
+        $model = new Docs();
         $model->name = 'Документация';
         $model->lft = 1;
         $model->rgt = 2;
