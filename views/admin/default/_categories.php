@@ -3,41 +3,47 @@
 \panix\mod\docs\CategoryAsset::register($this);
 
 ?>
-<div class="form-group">
-    <div class="col-12">
-        <input class="form-control" placeholder="Поиск..." type="text"
-               onkeyup='$("#jsTree_DocsTree").jstree(true).search($(this).val())'/>
+
+<div class="card">
+    <div class="card-header">
+        <h5>asd</h5>
     </div>
-</div>
+    <div class="card-body">
+        <div class="form-group mt-3">
+            <div class="col-12">
+                <input class="form-control" placeholder="Поиск..." type="text"
+                       onkeyup='$("#jsTree_DocsTree").jstree(true).search($(this).val())'/>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="alert alert-info">
+                <?= Yii::t('app/admin', "USE_DND"); ?>
+            </div>
+        </div>
+        <?php
 
-<?php
-echo Yii::t('app', "Используйте 'drag-and-drop' для сортировки категорий.");
-?>
-
-<?php
-
-echo \panix\ext\jstree\JsTree::widget([
-    'id' => 'DocsTree',
-    'name' => 'jstree',
-    'allOpen' => true,
-    'data' => \panix\mod\docs\components\CategoryNode::fromArray(\panix\mod\docs\models\Docs::findOne(1)->children()->all(), ['switch' => true]),
-    'core' => [
-        "multiple" => false,
-        'force_text' => true,
-        'animation' => 0,
-        'strings' => [
-            'Loading ...' => Yii::t('app', 'LOADING')
-        ],
-        "themes" => [
-            "stripes" => true,
-            'responsive' => true,
-            "variant" => "large"
-        ],
-        'check_callback' => true
-    ],
-    'plugins' => ['dnd', 'contextmenu', 'search'],
-    'contextmenu' => [
-        'items' => new yii\web\JsExpression('function($node) {
+        echo \panix\ext\jstree\JsTree::widget([
+            'id' => 'DocsTree',
+            'name' => 'jstree',
+            'allOpen' => true,
+            'data' => \panix\mod\docs\components\CategoryNode::fromArray(\panix\mod\docs\models\Docs::findOne(1)->children()->all(), ['switch' => true]),
+            'core' => [
+                "multiple" => false,
+                'force_text' => true,
+                'animation' => 0,
+                'strings' => [
+                    'Loading ...' => Yii::t('app', 'LOADING')
+                ],
+                "themes" => [
+                    "stripes" => true,
+                    'responsive' => true,
+                    "variant" => "large"
+                ],
+                'check_callback' => true
+            ],
+            'plugins' => ['dnd', 'contextmenu', 'search'],
+            'contextmenu' => [
+                'items' => new yii\web\JsExpression('function($node) {
             var tree = $("#jsTree_DocsTree").jstree(true);
             return {
                 "Switch": {
@@ -84,10 +90,11 @@ echo \panix\ext\jstree\JsTree::widget([
                     }
                 };
       }')
-    ]
-]);
-?>
-
+            ]
+        ]);
+        ?>
+    </div>
+</div>
 
 
 
