@@ -10,12 +10,12 @@ use yii\base\BootstrapInterface;
 class Module extends WebModule implements BootstrapInterface
 {
 
-    public $tegRoute = 'documentation/default/index';
+    public $tegRoute = 'docs/default/index';
 
     public function bootstrap($app)
     {
         $app->getUrlManager()->addRules([
-            ['class' => 'panix\mod\docs\components\CategoryUrlRule'],
+            ['class' => 'panix\mod\docs\components\DocsUrlRule'],
         ], true);
 
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace panix\mod\docs\controllers;
 
 use panix\mod\docs\models\Docs;
@@ -64,11 +65,14 @@ class DefaultController extends WebController
     }
 
 
-
-    protected function findModel($url) {
-       // $url = str_replace('documentation/', '', $url);
+    /**
+     * @param $seo_alias
+     * @return array|null|Docs|\yii\db\ActiveRecord
+     */
+    protected function findModel($seo_alias)
+    {
         $model = new Docs;
-        if (($this->model = $model::find()->where(['full_path' => $url])->one()) !== null) {
+        if (($this->model = $model::find()->where(['full_path' => $seo_alias])->one()) !== null) {
             return $this->model;
         } else {
             $this->error404();
