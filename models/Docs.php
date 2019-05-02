@@ -168,7 +168,7 @@ class Docs extends ActiveRecord
     {
         // Create category full path.
         $ancestors = $this->ancestors()
-            //->addOrderBy($this->levelAttribute)
+            ->addOrderBy($this->levelAttribute)
             ->all();
         if (sizeof($ancestors)) {
             // Remove root category from path
