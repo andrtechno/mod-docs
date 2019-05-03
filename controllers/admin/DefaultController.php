@@ -142,8 +142,8 @@ class DefaultController extends AdminController
             $status = true;
             $node->moveAsLast($target);
         }
-        if($status)
-            $test->rebuildFullPath()->saveNode(false);
+        //if($status)
+        //    $test->rebuildFullPath()->saveNode(false);
 
 
         return [

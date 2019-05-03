@@ -6,6 +6,9 @@ use panix\mod\docs\models\Docs;
 use panix\mod\docs\models\DocsSearch;
 use panix\engine\controllers\WebController;
 use Yii;
+use yii\helpers\FileHelper;
+use yii\helpers\Json;
+use yii\helpers\VarDumper;
 
 class DefaultController extends WebController
 {
@@ -18,21 +21,10 @@ class DefaultController extends WebController
                 echo implode("\n", $tags);
         }
     }
-
-    /**
-     * @var Product
-     */
-    public $query;
-
     /**
      * @var Docs
      */
     public $model;
-
-    /**
-     * @var ActiveDataProvider
-     */
-    public $provider;
 
     public function actionIndex()
     {
@@ -41,6 +33,38 @@ class DefaultController extends WebController
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 
+$data=[];
+        $dirs = FileHelper::findDirectories(Yii::getAlias('@docs/views/default/guides'),['recursive'=>true]);
+        foreach ($dirs as $dir){
+            $data[basename($dir)]['files']=[];
+
+            if(file_exists($dir.'/config.json')){
+            $config= Json::decode(file_get_contents($dir.'/config.json'));
+            $data[basename($dir)]['info']=$config;
+            }
+
+         //   echo $dir;
+          //  echo '<br>';
+            $files = FileHelper::findFiles($dir,['recursive'=>false,'only'=>['*.php']]);
+           // print_r($files);
+           // $data[basename($dir)]['files']=[];
+            foreach ($files as $file){
+                $data[basename($dir)]['files'][]=basename($file);
+               // echo $file;
+              //  echo '<br>';
+            }
+           // $files = FileHelper::findFiles(Yii::getAlias("@docs/views/default/guides"),['recursive'=>true]);
+           // print_r($files);die;
+        }
+
+
+
+        VarDumper::dump($data,10,true);
+        $files = FileHelper::findFiles(Yii::getAlias("@docs/views/default/guides/manual"),['recursive'=>true]);
+        // print_r($files);die;
+
+
+        die;
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
