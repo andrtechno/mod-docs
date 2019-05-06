@@ -71,9 +71,9 @@ $data=[];
         ]);
     }
 
-    public function actionView($seo_alias)
+    public function actionView($slug)
     {
-        $this->findModel($seo_alias);
+        $this->findModel($slug);
 
         $this->pageName = Yii::t('docs/default', 'MODULE_NAME');
         $this->view->title = $this->model->name;
@@ -90,13 +90,13 @@ $data=[];
 
 
     /**
-     * @param $seo_alias
+     * @param $slug
      * @return array|null|Docs|\yii\db\ActiveRecord
      */
-    protected function findModel($seo_alias)
+    protected function findModel($slug)
     {
         $model = new Docs;
-        if (($this->model = $model::find()->where(['full_path' => $seo_alias])->one()) !== null) {
+        if (($this->model = $model::find()->where(['full_path' => $slug])->one()) !== null) {
             return $this->model;
         } else {
             $this->error404();

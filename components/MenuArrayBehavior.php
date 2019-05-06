@@ -32,7 +32,7 @@ class MenuArrayBehavior extends \yii\base\Behavior {
     }
 
     private function isActive($url = false) {
-        if($url['seo_alias']==Yii::$app->request->get('seo_alias')){
+        if($url['slug']==Yii::$app->request->get('slug')){
             return true;
         }else{
             return false;

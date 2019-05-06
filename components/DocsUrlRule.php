@@ -12,7 +12,7 @@ use panix\mod\docs\models\Docs;
 class DocsUrlRule extends UrlRule
 {
 
-    public $pattern = '/docs/<seo_alias:[0-9a-zA-Z\-]+>';
+    public $pattern = '/docs/<slug:[0-9a-zA-Z\-]+>';
     public $route = 'docs/default/view';
 
     /**
@@ -21,9 +21,9 @@ class DocsUrlRule extends UrlRule
     public function createUrl($manager, $route, $params)
     {
         if ($route === $this->route) {
-            if (isset($params['seo_alias'])) {
-                $url = 'docs/' . trim($params['seo_alias'], '/');
-                unset($params['seo_alias']);
+            if (isset($params['slug'])) {
+                $url = 'docs/' . trim($params['slug'], '/');
+                unset($params['slug']);
             } else {
                 $url = 'docs/';
             }
@@ -58,7 +58,7 @@ class DocsUrlRule extends UrlRule
 
         foreach ($this->getAllPaths() as $path) {
             if ($path['full_path'] !== '' && strpos($pathInfo, $path['full_path']) === 0) {
-                $_GET['seo_alias'] = $path['full_path'];
+                $_GET['slug'] = $path['full_path'];
                 $uri = str_replace($path['full_path'], '', $pathInfo);
                 $parts = explode('/', $uri);
 
@@ -76,7 +76,7 @@ class DocsUrlRule extends UrlRule
                     $params[$p[0]] = $p[0];
                 }
 
-                $params['seo_alias'] = ltrim($path['full_path']);
+                $params['slug'] = ltrim($path['full_path']);
                 return [$this->route, $params];
             }
         }

@@ -20,7 +20,7 @@ use panix\engine\bootstrap\ActiveForm;
                 echo $form->field($model,'name');
                 ?>
                 <?php
-                echo $form->field($model,'seo_alias');
+                echo $form->field($model,'slug');
                 ?>
                 <?= $form->field($model, 'description')->widget(\panix\ext\tinymce\TinyMce::class, ['options' => ['rows' => 6]]); ?>
             </div>

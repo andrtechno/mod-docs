@@ -26,7 +26,7 @@ class m190501_042437_docs extends Migration
             'lft' => $this->smallInteger()->notNull()->unsigned(),
             'rgt' => $this->smallInteger()->notNull()->unsigned(),
             'depth' => $this->smallInteger()->notNull()->unsigned(),
-            'seo_alias' => $this->string(255)->null()->defaultValue(null),
+            'slug' => $this->string(255)->null()->defaultValue(null),
             'full_path' => $this->string(255)->null(),
             'switch' => $this->boolean()->defaultValue(1),
             'created_at' => $this->integer(11)->null(),
@@ -52,7 +52,7 @@ class m190501_042437_docs extends Migration
         $this->createIndex('language_id', DocsTranslate::tableName(), 'language_id');
 
         //create root
-        $this->batchInsert(Docs::tableName(), ['lft', 'rgt', 'depth', 'seo_alias', 'full_path', 'switch'], [
+        $this->batchInsert(Docs::tableName(), ['lft', 'rgt', 'depth', 'slug', 'full_path', 'switch'], [
             [1, 2, 1, 'root', '', 1]
         ]);
 

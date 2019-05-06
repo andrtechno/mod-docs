@@ -72,12 +72,12 @@ class DefaultController extends AdminController
         $model = Docs::findOne((int)$id);
         if ($model) {
             $model->name = Yii::$app->request->get('text');
-            $model->seo_alias = CMS::slug($model->name);
+            $model->slug = CMS::slug($model->name);
             if ($model->validate()) {
                 $model->saveNode();
                 $message = Yii::t('docs/default', 'TREE_RENAME');
             } else {
-                $message = $model->getError('seo_alias');
+                $message = $model->getError('slug');
             }
 
 
@@ -97,12 +97,12 @@ class DefaultController extends AdminController
         $parent = Docs::findOne($_GET['parent_id']);
 
         $model->name = $_GET['text'];
-        $model->seo_alias = CMS::slug($model->name);
+        $model->slug = CMS::slug($model->name);
         if ($model->validate()) {
             $model->appendTo($parent);
             $message = Yii::t('app', 'TREE_CREATE');
         } else {
-            $message = $model->getError('seo_alias');
+            $message = $model->getError('slug');
         }
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
@@ -210,7 +210,7 @@ class DefaultController extends AdminController
         $model->lft = 1;
         $model->rgt = 2;
         $model->depth = 0;
-        $model->seo_alias = 'root';
+        $model->slug = 'root';
         $model->full_path = '';
         $model->saveNode();
         return $this->redirect(['create']);
