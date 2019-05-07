@@ -11,7 +11,7 @@ class Module extends WebModule implements BootstrapInterface
 {
 
     public $tegRoute = 'docs/default/index';
-
+    public $icon = 'books';
     public function bootstrap($app)
     {
         $app->getUrlManager()->addRules([
@@ -26,9 +26,9 @@ class Module extends WebModule implements BootstrapInterface
             'modules' => [
                 'items' => [
                     [
-                        'label' => 'docs',
+                        'label' => Yii::t('docs/default', 'MODULE_NAME'),
                         'url' => ['/admin/docs'],
-                        'icon' => Html::icon('icon'),
+                        'icon' => $this->icon,
                     ]
                 ]
             ]
@@ -47,7 +47,7 @@ class Module extends WebModule implements BootstrapInterface
             'label' => Yii::t('docs/default', 'MODULE_NAME'),
             'author' => 'andrew.panix@gmail.com',
             'version' => '1.0',
-            'icon' => 'icon-documentation',
+            'icon' => $this->icon,
             'description' => Yii::t('docs/default', 'MODULE_DESC'),
             'url' => ['/admin/docs'],
         ];
