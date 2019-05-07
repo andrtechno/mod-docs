@@ -72,8 +72,10 @@ class DocsUrlRule extends UrlRule
 
                 foreach ($ss as $k => $p) {
                     // print_r($p);
-                    $_GET[$p[0]] = $p[0];
-                    $params[$p[0]] = $p[0];
+                    if (isset($p[0])) {
+                        $_GET[$p[0]] = $p[0];
+                        $params[$p[0]] = $p[0];
+                    }
                 }
 
                 $params['slug'] = ltrim($path['full_path']);
