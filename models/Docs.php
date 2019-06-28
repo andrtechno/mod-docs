@@ -2,7 +2,6 @@
 
 namespace panix\mod\docs\models;
 
-use panix\mod\docs\components\MenuArrayBehavior;
 use panix\engine\behaviors\nestedsets\NestedSetsBehavior;
 use panix\engine\behaviors\TranslateBehavior;
 use panix\engine\db\ActiveRecord;
