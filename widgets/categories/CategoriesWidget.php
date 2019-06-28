@@ -1,79 +1,66 @@
 <?php
+
 namespace panix\mod\docs\widgets\categories;
 
-use panix\mod\docs\models\Docs;
-use panix\mod\docs\models\CategoryNode;
-use panix\engine\data\Widget;
-use yii\helpers\Html;
 use Yii;
+use panix\engine\Html;
+use panix\mod\docs\models\Docs;
+use panix\engine\data\Widget;
 
+class CategoriesWidget extends Widget
+{
 
-class CategoriesWidget extends Widget {
-
-    public function init() {
-        //$this->publishAssets();
+    public function init()
+    {
+        parent::init();
     }
 
-    public function run() {
-
-        $model = Docs::findModel(1);
-
-        if (!$model) {
-            die(__CLASS__.'err');
-        } else {
-            $result = $model->menuArray();
-        }
-
-        return $this->render($this->skin, ['result' => $result]);
+    public function run()
+    {
+        $model = Docs::find()->dataFancytree();
+        return $this->render($this->skin, ['model' => $model]);
     }
 
-    public function recursive($data, $i = 0) {
+    public function recursive($data, $i = 0)
+    {
         $html = '';
-
         if (isset($data)) {
-            $html .= Html::beginTag('ul');
             foreach ($data as $obj) {
 
                 $i++;
-                if (isset($_GET['slug']) && stripos($_GET['slug'], $obj['url']['slug']) !== false) {
+                $iconClass = (isset($obj['folder'])) ? 'folder-open' : '';
+                if (Yii::$app->request->get('slug') && stripos(Yii::$app->request->get('slug'), $obj['url']) !== false) {
                     $ariaExpanded = 'true';
-                    $collapseClass = 'collapse in';
+                    $collapseClass = 'collapse in ';
                 } else {
                     $ariaExpanded = 'false';
-                    $collapseClass = 'collapse';
-                }
-                if(Yii::$app->request->get('slug')){
-                    $activeClass = ($obj['url']['slug'] === $_GET['slug']) ? 'active' : '';
-                }else{
-                    $activeClass='';
+                    $collapseClass = 'collapse ';
                 }
 
+                if (Yii::$app->request->get('slug')) {
+                    $activeClass = ($obj['url'] === '/docs/' . Yii::$app->request->get('slug')) ? 'active' : '';
+                } else {
+                    $activeClass = '';
+                }
 
-                $html .= Html::beginTag('li', array('class' => $activeClass));
-                if (isset($obj['items'])) {
-                    $html .= Html::a($obj['label'], '#collapse' . $obj['id'], array(
+                if (isset($obj['children'])) {
+                    $html .= Html::a($obj['title'], '#collapse' . $obj['key'], array(
                         'data-toggle' => 'collapse',
                         'aria-expanded' => $ariaExpanded,
-                        'aria-controls' => 'collapse' . $obj['id'],
-                        'class' => 'collapsed plus-minus'
+                        'aria-controls' => 'collapse' . $obj['key'],
+                        'class' => "nav-link collapsed {$activeClass} {$iconClass}"
                     ));
-                    $html .= Html::beginTag('div', array('class' => $collapseClass, 'id' => 'collapse' . $obj['id']));
-                    $html .= $this->recursive($obj['items'], $i);
+                    $html .= Html::beginTag('div', ['class' => $collapseClass, 'id' => 'collapse' . $obj['key']]);
+                    $html .= $this->recursive($obj['children'], $i);
 
                     $html .= Html::endTag('div');
                 } else {
-
-                    // $html .= Html::a($obj['label'], Yii::$app->urlManager->createUrl([$obj['url'][0], ['slug' => $obj['url']['slug']]]));
-                    $html .= Html::a($obj['label'], Yii::$app->urlManager->createUrl($obj['url']));
+                    $html .= Html::a($obj['title'], Yii::$app->urlManager->createUrl($obj['url']), ['class' => "nav-link {$activeClass} {$iconClass}"]);
                 }
-                $html .= Html::endTag('li');
             }
-            $html .= Html::endTag('ul');
-        } else {
-
-            $html .= Html::a($data['label'], '');
         }
         return $html;
     }
+
 
 }

@@ -34,15 +34,13 @@ class MenuArrayBehavior extends \yii\base\Behavior {
     private function isActive($url = false) {
         if($url['slug']==Yii::$app->request->get('slug')){
             return true;
-        }else{
-            return false;
         }
         return false;
     }
 
     /**
      * Recursively build menu array
-     * @param $model ActiveRecord model with NestedSet behavior
+     * @param $model /yii/db/ActiveRecord model with NestedSet behavior
      * @return array
      */
     protected function walkArray($model) {
