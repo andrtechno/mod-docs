@@ -24,15 +24,16 @@ use panix\engine\Html;
             }
         }
         ?>
-        <?php
-        echo \panix\engine\widgets\like\LikeWidget::widget([
-            'model' => $this->context->model
-        ]);
-        ?>
+
 
         <?php if ($this->context->model->description) { ?>
             <div class="manual-view">
                 <h1><?= ($this->h1) ? $this->h1 : $this->context->model->name; ?></h1>
+                <?php
+                echo \panix\engine\widgets\like\LikeWidget::widget([
+                    'model' => $this->context->model
+                ]);
+                ?>
                 <div class="tester content test">
                     <?= $this->context->model->description; ?>
                 </div>

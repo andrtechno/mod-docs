@@ -1,7 +1,6 @@
 <?php
 
 use panix\mod\docs\models\Docs;
-use panix\mod\docs\components\CategoryNode;
 
 \panix\mod\docs\CategoryAsset::register($this);
 
@@ -30,7 +29,7 @@ use panix\mod\docs\components\CategoryNode;
             'id' => 'DocsTree',
             'name' => 'jstree',
             'allOpen' => true,
-            'data' => CategoryNode::fromArray(Docs::find()->roots()->all(), ['switch' => true]),
+            'data' => Docs::find()->dataFancytree(),
             'core' => [
                 "multiple" => false,
                 'force_text' => true,

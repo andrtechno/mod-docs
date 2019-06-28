@@ -91,7 +91,6 @@ class DocsUrlRule extends UrlRule
         if ($allPaths === false) {
             $allPaths = (new \yii\db\Query())
                 ->select(['full_path'])
-                ->andWhere('id!=:id', [':id' => 1])
                 ->from(Docs::tableName())
                 ->all();
 

@@ -91,12 +91,6 @@ class Docs extends ActiveRecord
                 'class' => TranslateBehavior::class,
                 'translationAttributes' => ['name', 'description']
             ],
-            /*'MenuArrayBehavior' => array(
-                'class' => MenuArrayBehavior::class,
-                'labelAttr' => 'name',
-                // 'countProduct'=>false,
-                'urlExpression' => '["/docs/default/view", "slug"=>$model->full_path]',
-            ),*/
             'tree' => [
                 'class' => NestedSetsBehavior::class,
                 'hasManyRoots' => true
