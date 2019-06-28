@@ -2,10 +2,12 @@
 use panix\mod\docs\models\Docs;
 use panix\engine\CMS;
 use panix\engine\Html;
+
 ?>
 <div class="row">
     <div class="col-lg-3">
         <?= \panix\mod\docs\widgets\categories\CategoriesWidget::widget(); ?>
+
     </div>
     <div class="col-lg-9">
         <?php
@@ -42,10 +44,16 @@ use panix\engine\Html;
                     <?php echo CMS::date($this->context->model->created_at) ?>
                 </div>
             </div>
+            <h5><i class="icon-tag"></i> Теги:</h5>
+
+            <?php
+            foreach ($this->context->model->getTagValues(true) as $tag) {
+                echo Html::a($tag, ['tag', 'tag' => $tag], ['class' => 'btn btn-sm btn-link']) . ' ';
+            }
+            ?>
         <?php } else { ?>
             <div class="alert alert-info">Информация составляется.</div>
         <?php } ?>
-
 
 
     </div>

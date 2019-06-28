@@ -3,8 +3,12 @@
 namespace panix\mod\docs\models;
 
 use panix\engine\behaviors\nestedsets\NestedSetsBehavior;
+use panix\engine\behaviors\TaggableBehavior;
 use panix\engine\behaviors\TranslateBehavior;
 use panix\engine\db\ActiveRecord;
+use panix\mod\admin\models\query\TagBehavior;
+use panix\mod\admin\models\Tag;
+use panix\mod\admin\models\TagAssign;
 use yii\helpers\ArrayHelper;
 use Yii;
 
@@ -31,7 +35,7 @@ class Docs extends ActiveRecord
     const MODULE_ID = 'docs';
     const route = '/admin/docs/default';
     public $translationClass = DocsTranslate::class;
-    public $tags;
+   // public $tags;
 
     public static function find()
     {
@@ -49,7 +53,12 @@ class Docs extends ActiveRecord
             return $this->name;
         }
     }
-
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
     public function text2()
     {
         if (false) {//Yii::app()->user->isEditMode
@@ -76,12 +85,6 @@ class Docs extends ActiveRecord
         return '{{%docs}}';
     }
 
-    public function transactions222()
-    {
-        return [
-            self::SCENARIO_DEFAULT => self::OP_INSERT | self::OP_UPDATE,
-        ];
-    }
 
     public function behaviors()
     {
@@ -94,15 +97,26 @@ class Docs extends ActiveRecord
                 'class' => NestedSetsBehavior::class,
                 'hasManyRoots' => true
             ],
+            'tagsBehavior' => [
+                'class' => TagBehavior::class,
+            ],
         ], parent::behaviors());
     }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+            ->viaTable(TagAssign::tableName(), ['post_id' => 'id']);
+    }
     /**
      * @return array validation rules for model attributes.
      */
     public function rules()
     {
         return [
+            [['tagValues'], 'safe'],
             ['name', 'required'],
             ['slug', '\panix\engine\validators\UrlValidator', 'attributeCompare' => 'name'],
             ['slug', 'match',

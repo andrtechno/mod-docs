@@ -16,13 +16,11 @@ use panix\engine\bootstrap\ActiveForm;
                 <h5><?= Html::encode($this->context->pageName) ?></h5>
             </div>
             <div class="card-body">
-                <?php
-                echo $form->field($model,'name');
-                ?>
-                <?php
-                echo $form->field($model,'slug');
-                ?>
+                <?= $form->field($model, 'name'); ?>
+                <?= $form->field($model, 'slug'); ?>
                 <?= $form->field($model, 'description')->widget(\panix\ext\tinymce\TinyMce::class, ['options' => ['rows' => 6]]); ?>
+                <?= $form->field($model, 'tagValues')->widget(\panix\ext\taginput\TagInput::class, []); ?>
+
             </div>
             <div class="card-footer text-center">
                 <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'CREATE') : Yii::t('app', 'UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

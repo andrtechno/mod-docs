@@ -33,6 +33,7 @@ class DefaultController extends AdminController
 
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->validate()) {
+       //   print_r($model->tagValues);die;
             if ($model->getIsNewRecord()) {
                 if (Yii::$app->request->get('parent_id')) {
                     $parent_id = Docs::findModel(Yii::$app->request->get('parent_id'));

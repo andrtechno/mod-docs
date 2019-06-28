@@ -4,6 +4,7 @@ namespace panix\mod\docs\models;
 
 use panix\engine\behaviors\nestedsets\NestedSetsQueryBehavior;
 use panix\engine\traits\query\DefaultQueryTrait;
+use panix\mod\admin\models\query\TagQueryBehavior;
 use yii\db\ActiveQuery;
 
 /**
@@ -20,6 +21,9 @@ class DocsQuery extends ActiveQuery
         return [
             [
                 'class' => NestedSetsQueryBehavior::class,
+            ],
+            [
+                'class' => TagQueryBehavior::class,
             ]
         ];
     }
