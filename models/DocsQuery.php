@@ -2,13 +2,27 @@
 
 namespace panix\mod\docs\models;
 
+use panix\engine\behaviors\nestedsets\NestedSetsQueryBehavior;
 use panix\engine\traits\query\DefaultQueryTrait;
 use yii\db\ActiveQuery;
 
+/**
+ * Class DocsQuery
+ * @package panix\mod\docs\models
+ */
 class DocsQuery extends ActiveQuery
 {
 
     use DefaultQueryTrait;
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => NestedSetsQueryBehavior::class,
+            ]
+        ];
+    }
 
     public function excludeRoot()
     {

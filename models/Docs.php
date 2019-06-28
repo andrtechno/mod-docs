@@ -9,12 +9,29 @@ use panix\engine\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use Yii;
 
+/**
+ * Class Docs
+ * @package panix\mod\docs\models
+ *
+ * @property integer $id
+ * @property integer $tree
+ * @property integer $lft
+ * @property integer $rgt
+ * @property integer $depth
+ * @property string $slug
+ * @property string $full_path
+ * @property string $name
+ * @property string $description
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $switch
+ */
 class Docs extends ActiveRecord
 {
 
     const MODULE_ID = 'docs';
     const route = '/admin/docs/default';
-
+    public $translationClass = DocsTranslate::class;
     public $tags;
 
     public static function find()
@@ -46,20 +63,6 @@ class Docs extends ActiveRecord
         }
     }
 
-
-    public function overviewImage()
-    {
-        if (!$this->isNewRecord) {
-            if (file_exists(Yii::getPathOfAlias('webroot.uploads.categories') . '/' . $this->image) && !empty($this->image)) {
-                Yii::app()->controller->widget('ext.fancybox.Fancybox', array('target' => '.overview-image'));
-                return '<a href="/uploads/categories/' . $this->image . '" class="flaticon-image overview-image" title="' . $this->name . '"></a>';
-            } else {
-                return false;
-            }
-        }
-    }
-
-    public $translationClass = DocsTranslate::class;
 
     public function getTranslations()
     {
@@ -96,6 +99,7 @@ class Docs extends ActiveRecord
             ),
             'tree' => [
                 'class' => NestedSetsBehavior::class,
+                'hasManyRoots' => true
             ],
         ], parent::behaviors());
     }
@@ -168,7 +172,7 @@ class Docs extends ActiveRecord
     {
         // Create category full path.
         $ancestors = $this->ancestors()
-            ->addOrderBy($this->levelAttribute)
+            //->addOrderBy($this->levelAttribute)
             ->all();
         if (sizeof($ancestors)) {
             // Remove root category from path
@@ -178,7 +182,7 @@ class Docs extends ActiveRecord
             foreach ($ancestors as $ancestor)
                 $parts[] = $ancestor->slug;
 
-            // $parts[] = $this->slug;
+            $parts[] = $this->slug;
             $this->full_path = implode('/', array_filter($parts));
         }
 
@@ -195,7 +199,7 @@ class Docs extends ActiveRecord
         array_shift($categories);
 
         foreach ($categories as $c) {
-
+            /** @var self $c */
             if ($c->depth > 1) {
                 $result[$c->id] = str_repeat('--', $c->depth - 1) . ' ' . $c->name;
             } else {

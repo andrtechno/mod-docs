@@ -6,8 +6,6 @@ use panix\mod\docs\components\CategoryNode;
 \panix\mod\docs\CategoryAsset::register($this);
 
 
-$gg = CategoryNode::fromArray(Docs::findOne(1)->children()->all(), ['switch' => true]);
-//echo \yii\helpers\VarDumper::dump($gg,10,true);die;
 ?>
 
 <div class="card">
@@ -32,7 +30,7 @@ $gg = CategoryNode::fromArray(Docs::findOne(1)->children()->all(), ['switch' => 
             'id' => 'DocsTree',
             'name' => 'jstree',
             'allOpen' => true,
-            'data' => CategoryNode::fromArray(Docs::find()->where(['id' => 1])->all(), ['switch' => true]),
+            'data' => CategoryNode::fromArray(Docs::find()->roots()->all(), ['switch' => true]),
             'core' => [
                 "multiple" => false,
                 'force_text' => true,
@@ -66,7 +64,7 @@ $gg = CategoryNode::fromArray(Docs::findOne(1)->children()->all(), ['switch' => 
                         "action": function (obj) {
                             $node = tree.get_node($node);
                             console.log($node);
-                            window.location = "/admin/docs/default/create?parent_id="+$node.id.replace("node_", "");
+                            window.location = "/admin/docs/default/index?parent_id="+$node.id.replace("node_", "");
                         }
                     }, 
                     "Edit": {
@@ -74,7 +72,7 @@ $gg = CategoryNode::fromArray(Docs::findOne(1)->children()->all(), ['switch' => 
                         "label": "' . Yii::t('app', 'UPDATE') . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                           window.location = "/admin/docs/default/update?id="+$node.id.replace("node_", "");
+                           window.location = "/admin/docs/default/index?id="+$node.id.replace("node_", "");
                         }
                     },  
                     "Rename": {

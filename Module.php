@@ -12,6 +12,7 @@ class Module extends WebModule implements BootstrapInterface
 
     public $tegRoute = 'docs/default/index';
     public $icon = 'books';
+
     public function bootstrap($app)
     {
         $app->getUrlManager()->addRules([
@@ -33,12 +34,6 @@ class Module extends WebModule implements BootstrapInterface
                 ]
             ]
         ];
-    }
-
-    public function getAdminSidebar2()
-    {
-        $items = $this->getAdminMenu();
-        return $items['modules']['items'][0]['items'];
     }
 
     public function getInfo()

@@ -23,9 +23,10 @@ class m190501_042437_docs extends Migration
     {
         $this->createTable(Docs::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
-            'lft' => $this->smallInteger()->notNull()->unsigned(),
-            'rgt' => $this->smallInteger()->notNull()->unsigned(),
-            'depth' => $this->smallInteger()->notNull()->unsigned(),
+            'tree' => $this->integer()->unsigned(),
+            'lft' => $this->integer()->notNull()->unsigned(),
+            'rgt' => $this->integer()->notNull()->unsigned(),
+            'depth' => $this->smallInteger(5)->notNull()->unsigned(),
             'slug' => $this->string(255)->null()->defaultValue(null),
             'full_path' => $this->string(255)->null(),
             'switch' => $this->boolean()->defaultValue(1),

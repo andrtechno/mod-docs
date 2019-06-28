@@ -15,47 +15,45 @@ class DefaultController extends AdminController
 
     public function actionIndex()
     {
-        $this->pageName = Yii::t('docs/default', 'MODULE_NAME');
-        $this->breadcrumbs = array(
-
-            $this->pageName
-        );
-        $this->actionUpdate(true);
-    }
-
-    public function actionUpdate($id = false)
-    {
         /**
          * @var \panix\engine\behaviors\nestedsets\NestedSetsBehavior|Docs $model
          */
-        $model = Docs::findModel($id);
+        $model = Docs::findModel(Yii::$app->request->get('id'));
+
+        $this->pageName = Yii::t('docs/default', 'MODULE_NAME');
+        $this->breadcrumbs = array(
+            $this->pageName
+        );
+
+        $this->buttons[] = [
+            'label' => 'Просмотр модуля',
+            'url' => ['/docs'],
+            'options'=>['target'=>'_blank']
+        ];
 
         $post = Yii::$app->request->post();
-
-
         if ($model->load($post) && $model->validate()) {
-
-            if (Yii::$app->request->get('parent_id')) {
-                $parent_id = Docs::findModel(Yii::$app->request->get('parent_id'));
-            } else {
-                $parent_id = Docs::findModel(1);
-            }
             if ($model->getIsNewRecord()) {
-                $model->appendTo($parent_id);
-                return $this->redirect(['create']);
+                if (Yii::$app->request->get('parent_id')) {
+                    $parent_id = Docs::findModel(Yii::$app->request->get('parent_id'));
+                    $model->appendTo($parent_id);
+                } else {
+                    $model->saveNode();
+                }
+
+                return $this->redirect(['index']);
             } else {
                 $model->saveNode();
             }
 
         }
-        $this->pageName = ($model->isNewRecord) ? Yii::t('app', 'Создание категории') :
-            Yii::t('app', 'Редактирование категории');
+        $this->pageName = ($model->isNewRecord) ? $model::t('PAGE_CREATE') :
+            $model::t('PAGE_UPDATE');
 
         return $this->render('update', [
             'model' => $model,
         ]);
     }
-
 
     public function actionRenameNode()
     {
@@ -135,7 +133,7 @@ class DefaultController extends AdminController
                 $message = 'moveAfter';
             } else {
                 $message = 'err';
-               // echo count($childs);
+                // echo count($childs);
             }
         } else {
             $message = 'moveAsFirst';
@@ -150,7 +148,6 @@ class DefaultController extends AdminController
             'status' => $status,
             'message' => $message
         ];
-
 
 
     }
@@ -207,13 +204,14 @@ class DefaultController extends AdminController
         $model::getDb()->createCommand()->truncateTable(Docs::tableName())->execute();
         $model::getDb()->createCommand()->truncateTable(DocsTranslate::tableName())->execute();
         $model->name = 'Документация';
+        $model->tree = 1;
         $model->lft = 1;
         $model->rgt = 2;
         $model->depth = 0;
         $model->slug = 'root';
         $model->full_path = '';
         $model->saveNode();
-        return $this->redirect(['create']);
+        return $this->redirect(['index']);
     }
 
 }
