@@ -12,7 +12,8 @@ use panix\engine\Html;
     <div class="col-lg-9">
         <?php
 
-
+        $s= CMS::hash('p',true);
+var_dump($s);
         $subManual = Docs::findOne($this->context->model->id)->children()->all();
 
         if (isset($subManual)) {
