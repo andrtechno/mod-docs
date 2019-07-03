@@ -72,11 +72,6 @@ class Docs extends ActiveRecord
     }
 
 
-    public function getTranslations()
-    {
-        return $this->hasMany($this->translationClass, ['object_id' => 'id']);
-    }
-
     /**
      * @return string the associated database table name
      */
@@ -89,10 +84,6 @@ class Docs extends ActiveRecord
     public function behaviors()
     {
         return ArrayHelper::merge([
-            'TranslateBehavior' => [
-                'class' => TranslateBehavior::class,
-                'translationAttributes' => ['name', 'description']
-            ],
             'tree' => [
                 'class' => NestedSetsBehavior::class,
                 'hasManyRoots' => true
@@ -128,21 +119,6 @@ class Docs extends ActiveRecord
             [['name'], 'string', 'max' => 255],
             ['description', 'safe']
         ];
-    }
-
-
-    /**
-     * @return array relational rules.
-     */
-    public function relations2()
-    {
-        return array(
-            //  'countProducts' => array(self::STAT, 'ShopProductCategoryRef', 'category', 'condition' => '`t`.`switch`=1'),
-            //  'manufacturer' => array(self::HAS_MANY, 'ShopManufacturer', 'cat_id'),
-            'pages' => array(self::MANY_MANY, 'Docs', array('category_id' => 'id')),
-            'pages2' => array(self::BELONGS_TO, 'Docs', 'id'),
-            'cat_translate' => array(self::HAS_ONE, $this->translateModelName, 'object_id'),
-        );
     }
 
 
