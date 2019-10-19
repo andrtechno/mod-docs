@@ -29,7 +29,7 @@ use panix\mod\docs\models\Docs;
             'id' => 'DocsTree',
             'name' => 'jstree',
             'allOpen' => true,
-            'data' => Docs::find()->dataFancytree(),
+            'data' => Docs::find()->dataTree(),
             'core' => [
                 "multiple" => false,
                 'force_text' => true,

@@ -17,7 +17,7 @@ class CategoriesWidget extends Widget
 
     public function run()
     {
-        $model = Docs::find()->dataFancytree();
+        $model = Docs::find()->dataTree();
         return $this->render($this->skin, ['model' => $model]);
     }
 
