@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "panix/wgt-jstree": "*"
+        "panix/wgt-jstree": "dev-master"
     },
     "autoload": {
         "psr-4": {
