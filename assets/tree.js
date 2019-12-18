@@ -1,11 +1,11 @@
-var treeSelector = $('#jsTree_DocsTree');
+var treeSelector = $('#DocsTree');
 treeSelector.on('move_node.jstree', function (node, parent) {
     console.log(node);
     console.log(parent);
     $.ajax({
         async: false,
         type: 'GET',
-        url: '/admin/docs/default/move-node',
+        url: common.url('/admin/docs/default/move-node'),
         data: {
             'id': parent.node.id.replace('node_', ''),
             'ref': parent.parent.replace('node_', ''),
@@ -26,7 +26,7 @@ treeSelector.on('rename_node.jstree', function (node, text) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: "/admin/docs/default/rename-node",
+            url: common.url("/admin/docs/default/rename-node"),
             dataType: 'json',
             data: {
                 "id": text.node.id.replace('node_', ''),
@@ -43,7 +43,7 @@ treeSelector.on('create_node.jstree', function (node, parent, position) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/docs/default/create-node",
+        url: common.url("/admin/docs/default/create-node"),
         dataType: 'json',
         data: {
             text: parent.node.text,
@@ -59,7 +59,7 @@ treeSelector.on("delete_node.jstree", function (node, parent) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/docs/default/delete",
+        url: common.url("/admin/docs/default/delete"),
         data: {
             "id": parent.node.id.replace('node_', '')
         }
@@ -70,7 +70,7 @@ function switchNode(node) {
     $.ajax({
         async: false,
         type: 'GET',
-        url: "/admin/docs/default/switch-node",
+        url: common.url("/admin/docs/default/switch-node"),
         dataType: 'json',
         data: {
             id: node.id.replace('node_', ''),

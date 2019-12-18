@@ -27,7 +27,6 @@ use panix\mod\docs\models\Docs;
 
         echo \panix\ext\jstree\JsTree::widget([
             'id' => 'DocsTree',
-            'name' => 'jstree',
             'allOpen' => true,
             'data' => Docs::find()->dataTree(),
             'core' => [
