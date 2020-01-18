@@ -99,7 +99,7 @@ class DefaultController extends AdminController
         $model->slug = CMS::slug($model->name);
         if ($model->validate()) {
             $model->appendTo($parent);
-            $message = Yii::t('app', 'TREE_CREATE');
+            $message = Yii::t('app/default', 'TREE_CREATE');
         } else {
             $message = $model->getError('slug');
         }

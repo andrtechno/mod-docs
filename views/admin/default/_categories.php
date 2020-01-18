@@ -34,7 +34,7 @@ use panix\mod\docs\models\Docs;
                 'force_text' => true,
                 'animation' => 0,
                 'strings' => [
-                    'Loading ...' => Yii::t('app', 'LOADING')
+                    'Loading ...' => Yii::t('app/default', 'LOADING')
                 ],
                 "themes" => [
                     "stripes" => true,
@@ -50,7 +50,7 @@ use panix\mod\docs\models\Docs;
             return {
                 "Switch": {
                     "icon":"icon-eye",
-                    "label": "' . Yii::t('app', 'Скрыть показать') . '",
+                    "label": "' . Yii::t('app/default', 'Скрыть показать') . '",
                     "action": function (obj) {
                         $node = tree.get_node($node);
                         categorySwitch($node);
@@ -58,7 +58,7 @@ use panix\mod\docs\models\Docs;
                 }, 
                 "Add": {
                         "icon":"icon-add",
-                        "label": "' . Yii::t('app', 'CREATE') . '",
+                        "label": "' . Yii::t('app/default', 'CREATE') . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
                             console.log($node);
@@ -67,7 +67,7 @@ use panix\mod\docs\models\Docs;
                     }, 
                     "Edit": {
                         "icon":"icon-edit",
-                        "label": "' . Yii::t('app', 'UPDATE') . '",
+                        "label": "' . Yii::t('app/default', 'UPDATE') . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
                            window.location = common.language_path+"/admin/docs/default/index?id="+$node.id.replace("node_", "");
@@ -75,7 +75,7 @@ use panix\mod\docs\models\Docs;
                     },  
                     "Rename": {
                         "icon":"icon-rename",
-                        "label": "' . Yii::t('app', 'RENAME') . '",
+                        "label": "' . Yii::t('app/default', 'RENAME') . '",
                         "action": function (obj) {
                             console.log($node);
                             tree.edit($node);
@@ -83,9 +83,9 @@ use panix\mod\docs\models\Docs;
                     },                         
                     "Remove": {
                         "icon":"icon-trashcan",
-                        "label": "' . Yii::t('app', 'DELETE') . '",
+                        "label": "' . Yii::t('app/default', 'DELETE') . '",
                         "action": function (obj) {
-                            if (confirm("' . Yii::t('app', 'DELETE_CONFIRM') . '")) {
+                            if (confirm("' . Yii::t('app/default', 'DELETE_CONFIRM') . '")) {
                                 tree.delete_node($node);
                             }
                         }

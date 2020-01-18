@@ -112,7 +112,7 @@ class Docs extends ActiveRecord
             ['slug', '\panix\engine\validators\UrlValidator', 'attributeCompare' => 'name'],
             ['slug', 'match',
                 'pattern' => '/^([a-z0-9-])+$/i',
-                'message' => Yii::t('app', 'PATTERN_URL')
+                'message' => Yii::t('app/default', 'PATTERN_URL')
             ],
             [['name', 'slug'], 'trim'],
             [['name', 'slug'], 'required'],
