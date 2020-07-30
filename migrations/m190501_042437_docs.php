@@ -57,7 +57,7 @@ class m190501_042437_docs extends Migration
             [1, 2, 1, 'root', '', 1]
         ]);
 
-        $this->batchInsert(DocsTranslate::tableName(), ['object_id', 'language_id', 'name', 'text'], [
+        $this->batchInsert(DocsTranslate::tableName(), ['object_id', 'language_id', 'name', 'description'], [
             [1, 1, 'Документация', '']
         ]);
 
